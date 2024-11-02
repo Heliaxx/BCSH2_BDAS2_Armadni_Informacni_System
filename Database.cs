@@ -21,11 +21,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                 try
                 {
                     connection.Open();
-                    return "Připojeno k databázi.";
+                    return "Database connection established.";
                 }
                 catch (Exception ex)
                 {
-                    return "Chyba připojení: " + ex.Message;
+                    return "Connection error: " + ex.Message;
                 }
             }
         }

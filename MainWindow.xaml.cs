@@ -7,14 +7,22 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         public MainWindow()
         {
             InitializeComponent();
-            CheckDatabaseConnection();
         }
 
-        private void CheckDatabaseConnection()
+        private void Page1Button_Click(object sender, RoutedEventArgs e)
         {
-            Database db = new Database();
-            string message = db.TestConnection();
-            StatusTextBlock.Text = message;
+            MainFrame.Content = new Page1();
+            //LoginWindow loginWindow = new LoginWindow();
+            //loginWindow.Show();
+            //this.Close();
+        }
+
+        private void Page2Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new Page2();
+            //Page1 page1 = new Page1();
+            //page1.Show();
+            //this.Close();
         }
     }
 }
