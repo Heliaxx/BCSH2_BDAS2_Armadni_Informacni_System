@@ -105,7 +105,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Database.cs" />
+    <Compile Include="Database\Database.cs" />
+    <Compile Include="Entities\Domaci.cs" />
+    <Compile Include="Entities\Dovolenky.cs" />
+    <Compile Include="Entities\Hodnosti.cs" />
+    <Compile Include="Entities\Importovana.cs" />
+    <Compile Include="Entities\JednotkaUtvar.cs" />
+    <Compile Include="Entities\Jednotky.cs" />
+    <Compile Include="Entities\Skoleni.cs" />
+    <Compile Include="Entities\Specializace.cs" />
+    <Compile Include="Entities\Technika.cs" />
+    <Compile Include="Entities\UtvarTechnika.cs" />
+    <Compile Include="Entities\Utvary.cs" />
+    <Compile Include="Entities\UtvarZbran.cs" />
+    <Compile Include="Entities\Velikosti.cs" />
+    <Compile Include="Entities\Vojaci.cs" />
+    <Compile Include="Entities\VojakDovolenka.cs" />
+    <Compile Include="Entities\VojakSkoleni.cs" />
+    <Compile Include="Entities\VojakSpecializace.cs" />
+    <Compile Include="Entities\Zbrane.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -146,10 +164,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Oracle.DataAccess.Common.Configuration.Section.xsd">
+    <None Include="Database\Oracle.DataAccess.Common.Configuration.Section.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Oracle.ManagedDataAccess.Client.Configuration.Section.xsd">
+    <None Include="Database\Oracle.ManagedDataAccess.Client.Configuration.Section.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
