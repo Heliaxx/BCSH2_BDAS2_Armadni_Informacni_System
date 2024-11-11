@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,14 @@ using System.Windows.Shapes;
 namespace BCSH2_BDAS2_Armadni_Informacni_System
 {
     /// <summary>
-    /// Interakční logika pro Page1.xaml
+    /// Interakční logika pro VojakView.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class VojakView : Page
     {
-        public Page1()
+        public VojakView()
         {
             InitializeComponent();
+            this.DataContext = new VojakViewModel();
         }
     }
 }

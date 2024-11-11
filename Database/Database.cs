@@ -13,9 +13,15 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
 
         public Database()
         {
-            // Načtení connection stringu z app.config
+            // Load connection string from app.config
             connectionString = ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
+        }
 
+        public OracleConnection GetOpenConnection()
+        {
+            var connection = new OracleConnection(connectionString);
+            connection.Open();
+            return connection;
         }
 
         public string TestConnection()

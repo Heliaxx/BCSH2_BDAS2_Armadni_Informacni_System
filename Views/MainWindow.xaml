@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System"
+        xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System" xmlns:viewmodels="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:VojakViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-            <Button Name="Page1Button" Content="Page1" Click="Page1Button_Click" Width="100" Height="40" Margin="10" />
+            <Button Name="VojakViewButton" Content="Vojaci" Click="VojakViewButton_Click" Width="100" Height="40" Margin="10" />
             <Button Name="Page2Button" Content="Page2" Click="Page2Button_Click" Width="100" Height="40" Margin="10" />
         </StackPanel>
         <Frame x:Name="MainFrame" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System"
+        xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System" xmlns:viewmodels="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:VojakViewModel}"
         mc:Ignorable="d"
         Title="LoginWindow" Height="500" Width="800" MinHeight="400" MinWidth="350">
     <Grid>

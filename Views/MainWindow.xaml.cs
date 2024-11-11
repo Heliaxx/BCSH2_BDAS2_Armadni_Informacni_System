@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
+using System.Windows;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System
 {
@@ -9,9 +10,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             InitializeComponent();
         }
 
-        private void Page1Button_Click(object sender, RoutedEventArgs e)
+        private void VojakViewButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new Page1();
+            MainFrame.Content = new VojakView();
             //LoginWindow loginWindow = new LoginWindow();
             //loginWindow.Show();
             //this.Close();
@@ -20,8 +21,8 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         private void Page2Button_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new Page2();
-            //Page1 page1 = new Page1();
-            //page1.Show();
+            //VojakView VojakView = new VojakView();
+            //VojakView.Show();
             //this.Close();
         }
     }

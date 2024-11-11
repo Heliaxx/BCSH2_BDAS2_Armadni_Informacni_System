@@ -2,7 +2,7 @@
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System.Entities
 {
-    public class Vojaci
+    public class Vojak
     {
         public int IdVojak { get; set; }
         public string Jmeno { get; set; }

@@ -9,12 +9,12 @@ BCSH2_BDAS2_Armadni_Informacni_System
 none
 false
 DEBUG;TRACE
-C:\Users\motlt\Documents\UPCE\BCSH2\BCSH2_BDAS2_Armadni_Informacni_System\App.xaml
-41068878409
+C:\Users\motlt\Documents\UPCE\BCSH2\BCSH2_BDAS2_Armadni_Informacni_System\Views\App.xaml
+4-1571258731
 
-282094479130
+31-1869333899
 271026635637
-LoginWindow.xaml;MainWindow.xaml;Page1.xaml;Page2.xaml;
+Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\VojakView.xaml;Views\Page2.xaml;
 
 True
 

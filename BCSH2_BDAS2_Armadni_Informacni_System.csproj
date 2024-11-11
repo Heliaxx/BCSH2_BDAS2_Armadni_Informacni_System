@@ -89,62 +89,65 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Views\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="Helpers\PasswordHasher.cs" />
+    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Database\Database.cs" />
-    <Compile Include="Entities\Domaci.cs" />
-    <Compile Include="Entities\Dovolenky.cs" />
-    <Compile Include="Entities\Hodnosti.cs" />
-    <Compile Include="Entities\Importovana.cs" />
-    <Compile Include="Entities\JednotkaUtvar.cs" />
-    <Compile Include="Entities\Jednotky.cs" />
-    <Compile Include="Entities\Skoleni.cs" />
-    <Compile Include="Entities\Specializace.cs" />
-    <Compile Include="Entities\Technika.cs" />
-    <Compile Include="Entities\UtvarTechnika.cs" />
-    <Compile Include="Entities\Utvary.cs" />
-    <Compile Include="Entities\UtvarZbran.cs" />
-    <Compile Include="Entities\Velikosti.cs" />
-    <Compile Include="Entities\Vojaci.cs" />
-    <Compile Include="Entities\VojakDovolenka.cs" />
-    <Compile Include="Entities\VojakSkoleni.cs" />
-    <Compile Include="Entities\VojakSpecializace.cs" />
-    <Compile Include="Entities\Zbrane.cs" />
-    <Compile Include="LoginWindow.xaml.cs">
+    <Compile Include="Models\Domaci.cs" />
+    <Compile Include="Models\Dovolenky.cs" />
+    <Compile Include="Models\Hodnosti.cs" />
+    <Compile Include="Models\Importovana.cs" />
+    <Compile Include="Models\JednotkaUtvar.cs" />
+    <Compile Include="Models\Jednotky.cs" />
+    <Compile Include="Models\Skoleni.cs" />
+    <Compile Include="Models\Specializace.cs" />
+    <Compile Include="Models\Technika.cs" />
+    <Compile Include="Models\UtvarTechnika.cs" />
+    <Compile Include="Models\Utvary.cs" />
+    <Compile Include="Models\UtvarZbran.cs" />
+    <Compile Include="Models\Velikosti.cs" />
+    <Compile Include="Models\Vojak.cs" />
+    <Compile Include="Models\VojakDovolenka.cs" />
+    <Compile Include="Models\VojakSkoleni.cs" />
+    <Compile Include="Models\VojakSpecializace.cs" />
+    <Compile Include="Models\Zbrane.cs" />
+    <Compile Include="ViewModels\VojakViewModel.cs" />
+    <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Page1.xaml">
+    <Page Include="Views\VojakView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Page2.xaml">
+    <Page Include="Views\Page2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
+    <Compile Include="Views\VojakView.xaml.cs">
+      <DependentUpon>VojakView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Page2.xaml.cs">
+    <Compile Include="Views\Page2.xaml.cs">
       <DependentUpon>Page2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -179,5 +182,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
