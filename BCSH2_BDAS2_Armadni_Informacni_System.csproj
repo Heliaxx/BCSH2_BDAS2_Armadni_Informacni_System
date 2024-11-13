@@ -103,6 +103,8 @@
     </Page>
     <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\UserAuthService.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -110,7 +112,7 @@
     <Compile Include="Database\Database.cs" />
     <Compile Include="Models\Domaci.cs" />
     <Compile Include="Models\Dovolenky.cs" />
-    <Compile Include="Models\Hodnosti.cs" />
+    <Compile Include="Models\Hodnost.cs" />
     <Compile Include="Models\Importovana.cs" />
     <Compile Include="Models\JednotkaUtvar.cs" />
     <Compile Include="Models\Jednotky.cs" />

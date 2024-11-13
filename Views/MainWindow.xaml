@@ -7,10 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,115,0">
             <Button Name="VojakViewButton" Content="Vojaci" Click="VojakViewButton_Click" Width="100" Height="40" Margin="10" />
             <Button Name="Page2Button" Content="Page2" Click="Page2Button_Click" Width="100" Height="40" Margin="10" />
+            <Button x:Name="Page3Button" Content="Page2" Click="Page2Button_Click" Width="100" Height="40" />
         </StackPanel>
+        <Button Name="LogOutButton" Content="Log Out" Click="LogOutButton_Click"
+                Width="100" Height="40" Margin="10"
+                HorizontalAlignment="Right" VerticalAlignment="Top" />
         <Frame x:Name="MainFrame" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
         <TextBlock Name="StatusTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" TextAlignment="Center" />
     </Grid>
