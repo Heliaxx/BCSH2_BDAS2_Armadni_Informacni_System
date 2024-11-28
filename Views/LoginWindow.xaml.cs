@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,14 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private MockDatabaseService mockDatabaseService;
         private bool isRegisterMode = false;
 
         public LoginWindow()
         {
             InitializeComponent();
             CheckDatabaseConnection();
+            mockDatabaseService = new MockDatabaseService();
         }
 
         private void CheckDatabaseConnection()
@@ -51,15 +54,15 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
 
             if (isRegisterMode)
             {
-                firstName.Visibility = Visibility.Visible;
-                lastName.Visibility = Visibility.Visible;
+                stackfn.Visibility = Visibility.Visible;
+                stackln.Visibility = Visibility.Visible;
                 signInButton.Content = "Register";
                 registerButton.Content = "Back to Login";
             }
             else
             {
-                firstName.Visibility = Visibility.Collapsed;
-                lastName.Visibility = Visibility.Collapsed;
+                stackfn.Visibility = Visibility.Collapsed;
+                stackln.Visibility = Visibility.Collapsed;
                 signInButton.Content = "Sign in";
                 registerButton.Content = "Register";
             }
@@ -74,7 +77,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             string userRole;
 
             bool isAuthenticated = authService.AuthenticateUser(emailInput, passwordInput, out userRole);
-
+            Console.WriteLine($"Authenticated: {isAuthenticated}");
             if (isAuthenticated)
             {
                 MessageBox.Show($"Přihlášení úspěšné. Role: {userRole}");
@@ -102,17 +105,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             }
 
             UserAuthService authService = new UserAuthService();
-            bool isRegistered = authService.RegisterUser(emailInput, passwordInput, firstNameInput, lastNameInput);
-
-            if (isRegistered)
-            {
-                MessageBox.Show("Registrace byla úspěšná. Nyní se můžete přihlásit.");
-                Register_Click(null, null); // Přepnutí zpět na login
-            }
-            else
-            {
-                MessageBox.Show("Registrace se nezdařila.");
-            }
+           authService.RegisterUser(emailInput, passwordInput, firstNameInput, lastNameInput);
         }
     }
 }

@@ -15,7 +15,7 @@
             <Button Content="Načíst" Command="{Binding LoadCommand}" Width="75" Margin="5"/>
             <Button Content="Přidat" Command="{Binding AddCommand}" Width="75" Margin="5"/>
             <Button Content="Aktualizovat" Command="{Binding UpdateCommand}" Width="100" Margin="5"/>
-            <Button Content="Smazat" Command="{Binding DeleteCommand}" Width="75" Margin="5"/>
+            <Button Content="Smazat" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedVojak.IdVojak}" Width="75" Margin="5"/>
         </StackPanel>
     </Grid>
 </Page>

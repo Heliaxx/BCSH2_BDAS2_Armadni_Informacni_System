@@ -8,6 +8,7 @@
         public string PotrebnyStupenVzdelani { get; set; }
         public int PotrebnyPocetLetVPraxi { get; set; }
         public int VahaHodnosti { get; set; }
+
         public int IdRole { get; set; }
     }
 }

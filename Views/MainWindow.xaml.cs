@@ -63,11 +63,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             MainFrame.Content = new Page2();
         }
 
-        private void LogOffButton_Click(object sender, RoutedEventArgs e)
+        private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
             LoginWindow loginWindow = new LoginWindow();
             loginWindow.Show();
+            this.Close();
         }
     }
 

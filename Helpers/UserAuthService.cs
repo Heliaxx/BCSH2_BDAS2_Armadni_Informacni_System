@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System;
-using System.Data;
 using Oracle.ManagedDataAccess.Client;
 using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
+using System.Diagnostics;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using BCSH2_BDAS2_Armadni_Informacni_System.Entities;
+using System.Text;
+using System.Windows;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System
 {
@@ -21,57 +20,80 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         }
 
         // Ověření uživatele na základě e-mailu a hesla
-        public bool AuthenticateUser(string email, string password, out string userRole)
+        public bool AuthenticateUser(string email, string heslo, out string userRole)
         {
             userRole = string.Empty;
             string storedHash;
 
-            using (var connection = _database.GetOpenConnection())
+            //Console.WriteLine($"pwdHash: {passwordHash}");
+            Debug.WriteLine($"pwdHash: {heslo}");
+
+            using (var con = _database.GetOpenConnection())
             {
-                var command = new OracleCommand("SELECT PasswordHash, Role.Nazev AS RoleName FROM Vojak JOIN Role ON Vojak.IdRole = Role.IdRole WHERE Email = :email", connection);
+                var command = new OracleCommand(
+                    // "SELECT Heslo FROM Vojaci WHERE Email = :email",
+                    "SELECT V.Heslo, R.Nazev AS RoleName " +
+                    "FROM Vojaci V " +
+                    "JOIN Hodnosti H ON V.Id_Hodnost = H.Id_Hodnost " +
+                    "JOIN Role R ON H.Id_Role = R.Id_Role " +
+                    "WHERE V.Email = :email",
+                    con);
+
                 command.Parameters.Add(new OracleParameter("email", email));
 
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        storedHash = reader["PasswordHash"].ToString();
-                        userRole = reader["RoleName"].ToString();
-
-                        return PasswordHasher.VerifyPassword(password, storedHash); // Porovnání hesla
+                        storedHash = reader["Heslo"].ToString();
+                        userRole = reader["RoleName"].ToString(); 
+                        // Porovnání hesla pomocí hashovacího algoritmu
+                        return PasswordHasher.VerifyPassword(heslo, storedHash);
                     }
                 }
             }
-            return false;
+            return false; // Přihlášení selhalo
         }
 
-        public bool RegisterUser(string email, string password, string firstName, string lastName)
+        public void RegisterUser(string email, string heslo, string jmeno, string prijmeni)
         {
-            string passwordHash = PasswordHasher.HashPassword(password);
+            string passwordHash = PasswordHasher.HashPassword(heslo); // Hashování hesla
 
-            using (var connection = _database.GetOpenConnection())
+            using (var con = _database.GetOpenConnection())
             {
-                try
+                using (var cmd = con.CreateCommand())
                 {
-                    var command = new OracleCommand(
-                        "INSERT INTO Vojak (Email, PasswordHash, Jmeno, Prijmeni, IdRole) VALUES (:email, :passwordHash, :firstName, :lastName, :defaultRoleId)",
-                        connection);
+                    try
+                    {
+                        cmd.CommandText = @"
+                    INSERT INTO Vojaci (Jmeno, Prijmeni, Datum_Nastupu, Email, Heslo, Id_Jednotka, Id_Hodnost)
+                    VALUES (:jmeno, :prijmeni, SYSDATE, :email, :passwordHash, :idJednotka, :idHodnost)";
 
-                    command.Parameters.Add(new OracleParameter("email", email));
-                    command.Parameters.Add(new OracleParameter("passwordHash", passwordHash));
-                    command.Parameters.Add(new OracleParameter("firstName", firstName));
-                    command.Parameters.Add(new OracleParameter("lastName", lastName));
-                    command.Parameters.Add(new OracleParameter("defaultRoleId", 2)); // 2 = ID role pro běžného uživatele
+                        // Přiřazení parametrů
+                        cmd.Parameters.Add(new OracleParameter("jmeno", jmeno));
+                        cmd.Parameters.Add(new OracleParameter("prijmeni", prijmeni));
+                        cmd.Parameters.Add(new OracleParameter("email", email));
+                        cmd.Parameters.Add(new OracleParameter("passwordHash", passwordHash));
+                        cmd.Parameters.Add(new OracleParameter("idJednotka", 1)); // Pevná hodnota, upravit podle potřeby
+                        cmd.Parameters.Add(new OracleParameter("idHodnost", 1));  // Pevná hodnota, upravit podle potřeby
 
-                    int rowsAffected = command.ExecuteNonQuery();
-                    return rowsAffected > 0;
-                }
-                catch (OracleException)
-                {
-                    // Ošetření výjimek, např. když je email již zaregistrován
-                    return false;
+                        // Spuštění dotazu
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        con.Commit(); // Potvrzení transakce
+                        MessageBox.Show("Registrace úspěšná, můžete se přihlásit.");
+                    }
+                    catch (OracleException ex)
+                    {
+                        MessageBox.Show($"Chyba při registraci: {ex.Message}");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Obecné zpracování chyb
+                        MessageBox.Show($"Neočekávaná chyba: {ex.Message}");
+                    }
                 }
             }
         }
+
     }
 }

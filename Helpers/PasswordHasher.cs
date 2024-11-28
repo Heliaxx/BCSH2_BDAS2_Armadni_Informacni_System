@@ -28,6 +28,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.Helpers
         public static bool VerifyPassword(string enteredPassword, string storedHash)
         {
             string enteredHash = HashPassword(enteredPassword); // Získání hashe zadaného hesla
+            Console.WriteLine($"Entered hash: {enteredHash}, Stored hash: {storedHash}");
             return enteredHash == storedHash; // Porovnání s hashem v databázi
         }
     }

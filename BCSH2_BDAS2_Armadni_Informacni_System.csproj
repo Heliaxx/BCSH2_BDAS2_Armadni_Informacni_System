@@ -101,10 +101,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Helpers\MockDatabaseService.cs" />
     <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\UserAuthService.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -115,19 +117,19 @@
     <Compile Include="Models\Hodnost.cs" />
     <Compile Include="Models\Importovana.cs" />
     <Compile Include="Models\JednotkaUtvar.cs" />
-    <Compile Include="Models\Jednotky.cs" />
+    <Compile Include="Models\Jednotka.cs" />
     <Compile Include="Models\Skoleni.cs" />
     <Compile Include="Models\Specializace.cs" />
     <Compile Include="Models\Technika.cs" />
     <Compile Include="Models\UtvarTechnika.cs" />
-    <Compile Include="Models\Utvary.cs" />
+    <Compile Include="Models\Utvar.cs" />
     <Compile Include="Models\UtvarZbran.cs" />
-    <Compile Include="Models\Velikosti.cs" />
+    <Compile Include="Models\VelikostUtvaru.cs" />
     <Compile Include="Models\Vojak.cs" />
     <Compile Include="Models\VojakDovolenka.cs" />
     <Compile Include="Models\VojakSkoleni.cs" />
     <Compile Include="Models\VojakSpecializace.cs" />
-    <Compile Include="Models\Zbrane.cs" />
+    <Compile Include="Models\Zbran.cs" />
     <Compile Include="ViewModels\VojakViewModel.cs" />
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -183,6 +185,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\background.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
