@@ -116,7 +116,6 @@
     <Compile Include="Models\Dovolenky.cs" />
     <Compile Include="Models\Hodnost.cs" />
     <Compile Include="Models\Importovana.cs" />
-    <Compile Include="Models\JednotkaUtvar.cs" />
     <Compile Include="Models\Jednotka.cs" />
     <Compile Include="Models\Skoleni.cs" />
     <Compile Include="Models\Specializace.cs" />
