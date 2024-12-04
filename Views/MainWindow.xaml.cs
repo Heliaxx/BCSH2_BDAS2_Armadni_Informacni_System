@@ -1,4 +1,5 @@
 ﻿using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
+using BCSH2_BDAS2_Armadni_Informacni_System.Views;
 using System.Windows;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System
@@ -55,7 +56,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
 
         private void VojakViewButton_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new VojakView();
+            MainFrame.Content = new PrehledVojaciView();
         }
 
         private void Page2Button_Click(object sender, RoutedEventArgs e)

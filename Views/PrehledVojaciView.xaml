@@ -1,0 +1,69 @@
+﻿<Page x:Class="BCSH2_BDAS2_Armadni_Informacni_System.Views.PrehledVojaciView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PrehledVojaciView">
+
+    <Grid>
+        <!-- Definice řádků pro DataGrid a tlačítka -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- DataGrid: Roztáhne se do dostupného prostoru -->
+        <DataGrid Grid.Row="1" 
+          ItemsSource="{Binding Vojaci}" 
+          SelectedItem="{Binding SelectedVojak}" 
+          AutoGenerateColumns="False" 
+          VerticalAlignment="Stretch"  
+          HorizontalAlignment="Stretch" 
+          IsReadOnly="True" 
+          CanUserResizeColumns="True" 
+          CanUserReorderColumns="True"
+          HorizontalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*" MinWidth="100"/>
+                <DataGridTextColumn Header="Příjmení" Binding="{Binding Prijmeni}" Width="*" MinWidth="100"/>
+                <DataGridTextColumn Header="Datum nástupu" Binding="{Binding DatumNastupu}" Width="*" MinWidth="120"/>
+                <DataGridTextColumn Header="Datum propustení" Binding="{Binding DatumPropusteni}" Width="*" MinWidth="120"/>
+
+                <!-- ComboBox pro Hodnost -->
+                <DataGridTemplateColumn Header="Hodnost" Width="*" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding DataContext.Hodnosti, RelativeSource={RelativeSource AncestorType=Page}}"
+                                DisplayMemberPath="Nazev" 
+                                SelectedValue="{Binding HodnostId}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- ComboBox pro Jednotku -->
+                <DataGridTemplateColumn Header="Jednotka" Width="*" MinWidth="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding DataContext.Jednotky, RelativeSource={RelativeSource AncestorType=Page}}"
+                                DisplayMemberPath="Nazev" 
+                                SelectedValue="{Binding JednotkaId}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <!-- Tlačítka -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Upravit" Command="{Binding UpdateCommand}" Width="75" Margin="5"/>
+            <Button Content="Přidat" Command="{Binding AddCommand}" Width="75" Margin="5"/>
+            <Button Content="Smazat" Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedVojak.IdVojak}" Width="75" Margin="5"/>
+            <Button Content="Aktualizovat" Command="{Binding LoadCommand}" Width="100" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Page>

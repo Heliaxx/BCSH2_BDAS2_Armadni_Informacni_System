@@ -6,5 +6,6 @@
         public string Nazev { get; set; }
         public string Typ { get; set; }
         public int Velikost { get; set; }
+        public int IdUtvar { get; set; }
     }
 }
