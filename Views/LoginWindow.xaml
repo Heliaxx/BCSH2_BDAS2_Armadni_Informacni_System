@@ -30,7 +30,7 @@
         </StackPanel>
 
         <!-- Email Label and TextBox -->
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0">
+        <StackPanel x:Name="stackem" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0">
             <Label Content="Email" HorizontalAlignment="Center" />
             <TextBox x:Name="email" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" />
         </StackPanel>

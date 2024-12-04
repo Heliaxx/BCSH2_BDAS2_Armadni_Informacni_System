@@ -56,6 +56,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             {
                 stackfn.Visibility = Visibility.Visible;
                 stackln.Visibility = Visibility.Visible;
+                stackem.Visibility = Visibility.Collapsed;
                 signInButton.Content = "Register";
                 registerButton.Content = "Back to Login";
             }
@@ -63,6 +64,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             {
                 stackfn.Visibility = Visibility.Collapsed;
                 stackln.Visibility = Visibility.Collapsed;
+                stackem.Visibility = Visibility.Visible;
                 signInButton.Content = "Sign in";
                 registerButton.Content = "Register";
             }
@@ -93,7 +95,6 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
 
         private void RegisterUser()
         {
-            string emailInput = email.Text;
             string passwordInput = password.Text;
             string firstNameInput = firstName.Text;
             string lastNameInput = lastName.Text;
@@ -105,7 +106,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             }
 
             UserAuthService authService = new UserAuthService();
-           authService.RegisterUser(emailInput, passwordInput, firstNameInput, lastNameInput);
+           authService.RegisterUser(passwordInput, firstNameInput, lastNameInput);
         }
     }
 }

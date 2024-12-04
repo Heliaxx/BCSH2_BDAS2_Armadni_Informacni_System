@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using BCSH2_BDAS2_Armadni_Informacni_System.Entities;
 using System.Text;
 using System.Windows;
+using System.Linq;
+using System.Globalization;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System
 {
@@ -46,7 +48,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                     if (reader.Read())
                     {
                         storedHash = reader["Heslo"].ToString();
-                        userRole = reader["RoleName"].ToString(); 
+                        userRole = reader["RoleName"].ToString();
                         // Porovnání hesla pomocí hashovacího algoritmu
                         return PasswordHasher.VerifyPassword(heslo, storedHash);
                     }
@@ -54,10 +56,24 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             }
             return false; // Přihlášení selhalo
         }
-
-        public void RegisterUser(string email, string heslo, string jmeno, string prijmeni)
+        public void RegisterUser(string heslo, string jmeno, string prijmeni)
         {
-            string passwordHash = PasswordHasher.HashPassword(heslo); // Hashování hesla
+            // Funkce pro odstranění diakritiky
+            string RemoveDiacritics(string text)
+            {
+                return string.Concat(text.Normalize(NormalizationForm.FormD)
+                                   .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark));
+            }
+
+            // Odstranění diakritiky z jména a příjmení
+            string jmenoBezDiakritiky = RemoveDiacritics(jmeno).ToLower();
+            string prijmeniBezDiakritiky = RemoveDiacritics(prijmeni).ToLower();
+
+            // Generování emailu podle pravidla jmeno.prijmeni@vojak.com
+            string email = $"{jmenoBezDiakritiky}.{prijmeniBezDiakritiky}@vojak.com";
+
+            // Hashování hesla
+            string passwordHash = PasswordHasher.HashPassword(heslo);
 
             using (var con = _database.GetOpenConnection())
             {
@@ -65,22 +81,24 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                 {
                     try
                     {
+                        // Příkaz pro volání procedury
                         cmd.CommandText = @"
-                    INSERT INTO Vojaci (Jmeno, Prijmeni, Datum_Nastupu, Email, Heslo, Id_Jednotka, Id_Hodnost)
-                    VALUES (:jmeno, :prijmeni, SYSDATE, :email, :passwordHash, :idJednotka, :idHodnost)";
+    BEGIN 
+        edit_vojaci(NULL, :jmeno, :prijmeni, SYSDATE, NULL, :email, :passwordHash, :idHodnost, NULL, NULL);
+    END;";
 
                         // Přiřazení parametrů
                         cmd.Parameters.Add(new OracleParameter("jmeno", jmeno));
                         cmd.Parameters.Add(new OracleParameter("prijmeni", prijmeni));
-                        cmd.Parameters.Add(new OracleParameter("email", email));
+                        cmd.Parameters.Add(new OracleParameter("email", email)); // Používáme automaticky generovaný e-mail
                         cmd.Parameters.Add(new OracleParameter("passwordHash", passwordHash));
-                        cmd.Parameters.Add(new OracleParameter("idJednotka", 1)); // Pevná hodnota, upravit podle potřeby
                         cmd.Parameters.Add(new OracleParameter("idHodnost", 1));  // Pevná hodnota, upravit podle potřeby
 
-                        // Spuštění dotazu
-                        int rowsAffected = cmd.ExecuteNonQuery();
+                        // Spuštění procedury
+                        cmd.ExecuteNonQuery();
                         con.Commit(); // Potvrzení transakce
-                        MessageBox.Show("Registrace úspěšná, můžete se přihlásit.");
+                        MessageBox.Show($"Registrace úspěšná, můžete se přihlásit.\nVáš email: {email}\nPokud se vám nepodaří přihlásit, kontaktujte prosím vašeho nadřízeného");
+
                     }
                     catch (OracleException ex)
                     {

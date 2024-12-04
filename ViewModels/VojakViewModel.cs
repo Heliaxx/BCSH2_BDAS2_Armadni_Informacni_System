@@ -50,13 +50,13 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                 {
                     Vojaci.Add(new Vojak
                     {
-                        //IdVojak = reader.GetInt32(0),            // ID vojáka
+                        IdVojak = reader.GetInt32(0),            // ID vojáka
                         Jmeno = reader.GetString(1),            // Jméno
                         Prijmeni = reader.GetString(2),         // Příjmení
                         DatumNastupu = reader.GetDateTime(3),   // Datum nástupu
                         DatumPropusteni = reader.GetDateTime(4),// Datum propuštění
-                        Hodnost = reader.GetString(5),          // Hodnost (přidat do modelu)
-                        Jednotka = reader.GetString(6)
+                        //Hodnost = reader.GetString(5),          // Hodnost (přidat do modelu)
+                        //Jednotka = reader.GetString(6)
                     });
                 }
             }
@@ -73,9 +73,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                 command.Parameters.Add("Prijmeni", SelectedVojak.Prijmeni);
                 command.Parameters.Add("DatumNastupu", SelectedVojak.DatumNastupu);
                 command.Parameters.Add("DatumPropusteni", SelectedVojak.DatumPropusteni);
-                //command.Parameters.Add("IdHodnost", SelectedVojak.IdHodnost);
-                //command.Parameters.Add("IdJednotka", SelectedVojak.IdJednotka);
-                //command.Parameters.Add("IdZbran", SelectedVojak.IdZbran);
+                command.Parameters.Add("IdHodnost", SelectedVojak.IdHodnost);
+                command.Parameters.Add("IdJednotka", SelectedVojak.IdJednotka);
+                command.Parameters.Add("IdZbran", SelectedVojak.IdZbran);
                 command.ExecuteNonQuery();
             }
             LoadVojaci();
@@ -92,9 +92,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                 command.Parameters.Add("Prijmeni", SelectedVojak.Prijmeni);
                 command.Parameters.Add("DatumNastupu", SelectedVojak.DatumNastupu);
                 command.Parameters.Add("DatumPropusteni", SelectedVojak.DatumPropusteni);
-                //command.Parameters.Add("IdHodnost", SelectedVojak.IdHodnost);
-                //command.Parameters.Add("IdJednotka", SelectedVojak.IdJednotka);
-                //command.Parameters.Add("IdZbran", SelectedVojak.IdZbran);
+                command.Parameters.Add("IdHodnost", SelectedVojak.IdHodnost);
+                command.Parameters.Add("IdJednotka", SelectedVojak.IdJednotka);
+                command.Parameters.Add("IdZbran", SelectedVojak.IdZbran);
                 command.ExecuteNonQuery();
             }
             LoadVojaci();
