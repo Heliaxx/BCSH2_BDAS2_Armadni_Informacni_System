@@ -5,9 +5,17 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System;
 using BCSH2_BDAS2_Armadni_Informacni_System.Entities;
+using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
+using System.Linq;
+using System.Windows;
 
 public class PrehledVojaciViewModel : INotifyPropertyChanged
 {
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
     private readonly Database _database;
 
     // Přidání privátní proměnné pro aktuálně vybraného vojáka
@@ -16,6 +24,10 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     // Kolekce pro hodnosti a jednotky
     public ObservableCollection<Hodnost> Hodnosti { get; set; } = new ObservableCollection<Hodnost>();
     public ObservableCollection<Jednotka> Jednotky { get; set; } = new ObservableCollection<Jednotka>();
+
+    public RelayCommand AddCommand { get; set; }
+    public RelayCommand SaveCommand { get; set; }
+    public RelayCommand DeleteCommand { get; set; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -27,12 +39,17 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         set
         {
             _selectedVojak = value;
+            OnPropertyChanged(nameof(SelectedVojak));
+
             if (_selectedVojak != null)
             {
                 // Nastavíme hodnoty pro ComboBoxy podle ID
                 HodnostId = _selectedVojak.HodnostId;
                 JednotkaId = _selectedVojak.JednotkaId ?? 0;
             }
+
+            // Aktualizace tlačítek a jiných vlastností
+            DeleteCommand.RaiseCanExecuteChanged();
         }
     }
 
@@ -46,10 +63,99 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         LoadHodnosti();
         LoadJednotky();
         LoadVojaci();
+        AddCommand = new RelayCommand(AddVojak);
+        SaveCommand = new RelayCommand(SaveVojak);
+        DeleteCommand = new RelayCommand(DeleteVojak);
     }
 
-    // Načítání hodností z databáze
-    private void LoadHodnosti()
+    private void SaveVojak()
+    {
+        if (SelectedVojak == null) return;
+
+        using (var connection = _database.GetOpenConnection())
+        {
+            var command = new OracleCommand("BEGIN edit_vojaci(:idVojak, :jmeno, :prijmeni, :datumNastupu, :datumPropusteni, :email, :heslo, :idHodnost, :idJednotka, :idPrimyNadrizeny); END;", connection);
+
+            // Přidání parametrů
+            command.Parameters.Add(new OracleParameter(":idVojak", SelectedVojak.IdVojak));
+            command.Parameters.Add(new OracleParameter(":jmeno", SelectedVojak.Jmeno));
+            command.Parameters.Add(new OracleParameter(":prijmeni", SelectedVojak.Prijmeni));
+            command.Parameters.Add(new OracleParameter(":datumNastupu", SelectedVojak.DatumNastupu));
+            command.Parameters.Add(new OracleParameter(":datumPropusteni", SelectedVojak.DatumPropusteni ?? (object)DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":email", DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":heslo", DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":idHodnost", SelectedVojak.HodnostId));
+            command.Parameters.Add(new OracleParameter(":idJednotka", SelectedVojak.JednotkaId ?? (object)DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":idPrimyNadrizeny", DBNull.Value)); // Přímý nadřízený (zatím NULL)
+
+            // Spuštění procedury
+            command.ExecuteNonQuery();
+        }
+
+        // Aktualizace seznamu vojáků
+        LoadVojaci();
+    }
+
+    private void AddVojak()
+    {
+        SelectedVojak = new PrehledVojaci
+        {
+            IdVojak = 0,
+            Jmeno = "",
+            Prijmeni = "",
+            DatumNastupu = DateTime.Now,
+            DatumPropusteni = null,
+            HodnostId = Hodnosti.FirstOrDefault()?.IdHodnost ?? 0,
+            JednotkaId = -1
+        };
+
+        // Přepnutí do detailního pohledu pro úpravu
+        OnPropertyChanged(nameof(SelectedVojak));
+        LoadVojaci();
+    }
+
+    private void DeleteVojak()
+    {
+        if (SelectedVojak == null)
+        {
+            return;
+        }
+
+        var result = MessageBox.Show($"Opravdu chcete smazat vojáka {SelectedVojak.Jmeno} {SelectedVojak.Prijmeni}?",
+                                     "Potvrzení mazání",
+                                     MessageBoxButton.YesNo,
+                                     MessageBoxImage.Question);
+
+        if (result != MessageBoxResult.Yes)
+        {
+            return;
+        }
+
+        using (var connection = _database.GetOpenConnection())
+        {
+            try
+            {
+                var command = new OracleCommand("BEGIN smazat_vojaka(:idVojak); END;", connection);
+                command.Parameters.Add(new OracleParameter(":idVojak", SelectedVojak.IdVojak));
+
+                command.ExecuteNonQuery();
+            }
+            catch (OracleException ex)
+            {
+                // Zpracování chyby při mazání
+                MessageBox.Show($"Chyba při mazání vojáka: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+        }
+        LoadVojaci();
+
+        SelectedVojak = null;
+        OnPropertyChanged(nameof(SelectedVojak));
+    }
+
+
+// Načítání hodností z databáze
+private void LoadHodnosti()
     {
         Hodnosti.Clear();
         using (var connection = _database.GetOpenConnection())
@@ -140,4 +246,3 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
             }
         }
     }
-}
