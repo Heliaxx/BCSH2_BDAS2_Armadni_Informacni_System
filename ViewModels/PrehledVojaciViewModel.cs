@@ -8,6 +8,7 @@ using BCSH2_BDAS2_Armadni_Informacni_System.Entities;
 using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
 using System.Linq;
 using System.Windows;
+using System.Data;
 
 public class PrehledVojaciViewModel : INotifyPropertyChanged
 {
@@ -72,28 +73,40 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     {
         if (SelectedVojak == null) return;
 
+        try { 
+
         using (var connection = _database.GetOpenConnection())
         {
-            var command = new OracleCommand("BEGIN edit_vojaci(:idVojak, :jmeno, :prijmeni, :datumNastupu, :datumPropusteni, :email, :heslo, :idHodnost, :idJednotka, :idPrimyNadrizeny); END;", connection);
+            var command = new OracleCommand("edit_vojaci", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
 
-            // Přidání parametrů
-            command.Parameters.Add(new OracleParameter(":idVojak", SelectedVojak.IdVojak));
-            command.Parameters.Add(new OracleParameter(":jmeno", SelectedVojak.Jmeno));
-            command.Parameters.Add(new OracleParameter(":prijmeni", SelectedVojak.Prijmeni));
-            command.Parameters.Add(new OracleParameter(":datumNastupu", SelectedVojak.DatumNastupu));
-            command.Parameters.Add(new OracleParameter(":datumPropusteni", SelectedVojak.DatumPropusteni ?? (object)DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":email", DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":heslo", DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":idHodnost", SelectedVojak.HodnostId));
-            command.Parameters.Add(new OracleParameter(":idJednotka", SelectedVojak.JednotkaId ?? (object)DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":idPrimyNadrizeny", DBNull.Value)); // Přímý nadřízený (zatím NULL)
+            command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = SelectedVojak.JednotkaId;
+            command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = SelectedVojak.Jmeno;
+            command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = SelectedVojak.Prijmeni;
+            command.Parameters.Add("p_datum_nastupu", OracleDbType.Date).Value = SelectedVojak.DatumNastupu;
+            command.Parameters.Add("p_datum_propusteni", OracleDbType.Date).Value = SelectedVojak.DatumPropusteni ?? (object)DBNull.Value;
+            command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = SelectedVojak.Email;
+            command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo;
+            command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = SelectedVojak.HodnostId;
+            command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = SelectedVojak.JednotkaId ?? (object)DBNull.Value;
+            command.Parameters.Add("p_id_primy_nadrizeny", OracleDbType.Int32).Value = SelectedVojak.PrimyNadrizenyId ?? (object)DBNull.Value;
 
-            // Spuštění procedury
-            command.ExecuteNonQuery();
+                // Spuštění procedury
+                command.ExecuteNonQuery();
         }
 
         // Aktualizace seznamu vojáků
         LoadVojaci();
+        
+        }
+        catch (OracleException ex)
+        {
+            // Zpracování chyby při ukládání
+            MessageBox.Show($"Chyba při ukládání vojáka: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
     }
 
     private void AddVojak()
@@ -234,10 +247,11 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         }
     }
 
-    // Načítání vojáků z databáze
-    private void LoadVojaci()
+        // Načítání vojáků z databáze
+        private void LoadVojaci()
     {
         Vojaci.Clear();
+
         using (var connection = _database.GetOpenConnection())
         {
             var command = new OracleCommand("SELECT * FROM Prehled_Vojaci", connection);
@@ -251,10 +265,14 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
                     Prijmeni = reader.GetString(2),
                     DatumNastupu = reader.GetDateTime(3),
                     DatumPropusteni = reader.IsDBNull(4) ? (DateTime?)null : reader.GetDateTime(4),
-                    Hodnost = reader.GetString(5),
-                    Jednotka = reader.IsDBNull(6) ? "Voják zatím nepatří do žádné jednotky" : reader.GetString(6),
-                    HodnostId = reader.GetInt32(7),
-                    JednotkaId = reader.IsDBNull(8) ? (int?)null : reader.GetInt32(8)
+                    Email = reader.GetString(5),
+                    Heslo = reader.GetString(6),
+                    Hodnost = reader.GetString(7),
+                    Jednotka = reader.IsDBNull(8) ? "Voják zatím nepatří do žádné jednotky" : reader.GetString(8),
+                    HodnostId = reader.GetInt32(9),
+                    JednotkaId = reader.IsDBNull(10) ? (int?)null : reader.GetInt32(10),
+                    PrimyNadrizeny = reader.IsDBNull(11) ? "Voják nemá přímého nadřízeného" : reader.GetString(11),
+                    PrimyNadrizenyId = reader.IsDBNull(12) ? (int?)null : reader.GetInt32(12)
                 };
 
                 // Při načítání vojáka také aktualizujeme hodnoty pro comboBoxy

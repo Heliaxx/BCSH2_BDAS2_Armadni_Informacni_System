@@ -31,6 +31,7 @@
                 <DataGridTextColumn Header="Datum propuštění" Binding="{Binding DatumPropusteni}" />
                 <DataGridTextColumn Header="Hodnost" Binding="{Binding Hodnost}" />
                 <DataGridTextColumn Header="Jednotka" Binding="{Binding Jednotka}" />
+                <DataGridTextColumn Header="Přímý Nadřízený" Binding="{Binding PrimyNadrizeny}" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -56,6 +57,12 @@
                       DisplayMemberPath="Nazev" 
                       SelectedValuePath="IdJednotka" 
                       SelectedValue="{Binding JednotkaId, Mode=TwoWay}" 
+                      Margin="0,5" />
+            <TextBlock Text="Přímý nadřízený:" />
+            <ComboBox ItemsSource="{Binding Vojaci}" 
+                      DisplayMemberPath="Jmeno" 
+                      SelectedValuePath="IdVojak" 
+                      SelectedValue="{Binding PrimyNadrizenyId, Mode=TwoWay}" 
                       Margin="0,5" />
         </StackPanel>
 
