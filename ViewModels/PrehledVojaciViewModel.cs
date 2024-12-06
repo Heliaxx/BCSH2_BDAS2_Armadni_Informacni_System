@@ -98,13 +98,35 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
 
     private void AddVojak()
     {
+        using (var connection = _database.GetOpenConnection())
+        {
+            var command = new OracleCommand("BEGIN edit_vojaci(NULL, :jmeno, :prijmeni, :datumNastupu, :datumPropusteni, :email, :heslo, :idHodnost, :idJednotka, :idPrimyNadrizeny); END;", connection);
+
+            // Přidání parametrů
+            command.Parameters.Add(new OracleParameter(":jmeno", ""));
+            command.Parameters.Add(new OracleParameter(":prijmeni", ""));
+            command.Parameters.Add(new OracleParameter(":datumNastupu", DateTime.Now));
+            command.Parameters.Add(new OracleParameter(":datumPropusteni", SelectedVojak.DatumPropusteni ?? (object)DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":email", DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":heslo", DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":idHodnost", 1));
+            command.Parameters.Add(new OracleParameter(":idJednotka", DBNull.Value));
+            command.Parameters.Add(new OracleParameter(":idPrimyNadrizeny", DBNull.Value)); // Přímý nadřízený (zatím NULL)
+
+            //command.Parameters.Add(new OracleParameter(":idHodnost", 1));
+
+            // Spuštění procedury
+            command.ExecuteNonQuery();
+        }
+
         SelectedVojak = new PrehledVojaci
         {
-            IdVojak = 0,
             Jmeno = "",
             Prijmeni = "",
             DatumNastupu = DateTime.Now,
             DatumPropusteni = null,
+            Hodnost = Hodnosti.FirstOrDefault()?.Nazev ?? "",
+            Jednotka = Jednotky.FirstOrDefault()?.Nazev ?? "",
             HodnostId = Hodnosti.FirstOrDefault()?.IdHodnost ?? 0,
             JednotkaId = -1
         };
@@ -246,3 +268,4 @@ private void LoadHodnosti()
             }
         }
     }
+}

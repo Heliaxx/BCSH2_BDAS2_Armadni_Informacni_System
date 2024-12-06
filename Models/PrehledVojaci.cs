@@ -2,7 +2,7 @@
 
 public class PrehledVojaci
 {
-    public int IdVojak { get; set; }
+    public int? IdVojak { get; set; }
     public string Jmeno { get; set; }
     public string Prijmeni { get; set; }
     public DateTime DatumNastupu { get; set; }
