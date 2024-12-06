@@ -176,8 +176,8 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     }
 
 
-// Načítání hodností z databáze
-private void LoadHodnosti()
+    // Načítání hodností z databáze
+    private void LoadHodnosti()
     {
         Hodnosti.Clear();
         using (var connection = _database.GetOpenConnection())
@@ -209,9 +209,9 @@ private void LoadHodnosti()
         // Přidání možnosti "Voják zatím nepatří do žádné jednotky"
         Jednotky.Add(new Jednotka
         {
-            IdJednotka = -1,  
+            IdJednotka = -1,
             Nazev = "Voják zatím nepatří do žádné jednotky",
-            Typ = "",  
+            Typ = "",
             Velikost = 0,
             IdUtvar = -1
         });

@@ -23,31 +23,36 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                 case "Generálové":
                     // Nastavíme možnosti pouze pro administrátora
                     VojakViewButton.IsEnabled = true;
-                    Page2Button.IsEnabled = true;
+                    Logy.IsEnabled = true;
+                    Uzivatele.IsEnabled = true;
                     break;
 
                 case "Důstojníci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
-                    Page2Button.IsEnabled = false;
+                    Logy.Visibility = Visibility.Collapsed;
+                    Uzivatele.IsEnabled = true;
                     break;
 
                 case "Poddůstojníci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
-                    Page2Button.IsEnabled = false;
+                    Logy.Visibility = Visibility.Collapsed;
+                    Uzivatele.Visibility = Visibility.Collapsed;
                     break;
 
                 case "Vojáci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
-                    Page2Button.IsEnabled = false;
+                    Logy.Visibility = Visibility.Collapsed;
+                    Uzivatele.Visibility = Visibility.Collapsed;
                     break;
 
                 default:
                     // Uživatel nemá žádnou roli nebo nemá oprávnění
                     VojakViewButton.IsEnabled = false;
-                    Page2Button.IsEnabled = false;
+                    Logy.Visibility = Visibility.Collapsed;
+                    Uzivatele.Visibility = Visibility.Collapsed;
                     MessageBox.Show("Nemáte oprávnění k přístupu do této aplikace.");
                     Close();
                     break;
@@ -59,9 +64,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             MainFrame.Content = new PrehledVojaciView();
         }
 
-        private void Page2Button_Click(object sender, RoutedEventArgs e)
+        private void Logy_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new Page2();
+            MainFrame.Content = new PrehledLogyView();
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
@@ -70,6 +75,15 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             loginWindow.Show();
             this.Close();
         }
-    }
 
+        private void Uzivatele_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledUzivateleView();
+        }
+
+        private void Jednotky_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledJednotkyView();
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿namespace BCSH2_BDAS2_Armadni_Informacni_System.Entities
+﻿namespace BCSH2_BDAS2_Armadni_Informacni_System.Models
 {
     public class Hodnost
     {
