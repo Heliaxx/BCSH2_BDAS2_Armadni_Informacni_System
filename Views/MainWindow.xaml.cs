@@ -85,5 +85,15 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         {
             MainFrame.Content = new PrehledJednotkyView();
         }
+
+        private void Skoleni_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledSkoleniView();
+        }
+
+        private void Nadrizeni_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledNadrizenychView();
+        }
     }
 }

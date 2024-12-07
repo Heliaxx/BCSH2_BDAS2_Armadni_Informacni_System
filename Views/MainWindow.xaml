@@ -15,6 +15,7 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,115,0" Height="55">
             <Button Name="VojakViewButton" Content="Vojaci" Click="VojakViewButton_Click" Width="60" Height="20" Margin="10" />
+            <Button x:Name="Skoleni" Content="Skoleni" Click="Skoleni_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Uzivatele" Content="Uzivatele" Click="Uzivatele_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Jednotky" Content="Jednotky" Click="Jednotky_Click" Width="60" Height="20" Margin="10"/>
         </StackPanel>

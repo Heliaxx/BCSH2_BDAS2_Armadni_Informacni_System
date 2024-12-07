@@ -68,6 +68,7 @@
 
         <!-- Spodní tlačítka -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Grid.Row="3">
+            <Button Content="Zobraz nadřízené" Command="{Binding ShowCommand}" Width="100" Height="25" Margin="5" />
             <Button Content="Přidat" Command="{Binding AddCommand}" Width="75" Height="25" Margin="5" />
             <Button Content="Smazat" Command="{Binding DeleteCommand}" Width="75" Height="25" Margin="5" />
             <Button Content="Uložit" Command="{Binding SaveCommand}" Width="75" Height="25" Margin="5" />

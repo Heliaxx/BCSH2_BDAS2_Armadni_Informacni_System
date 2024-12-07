@@ -9,6 +9,8 @@ using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
 using System.Linq;
 using System.Windows;
 using System.Data;
+using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
+using BCSH2_BDAS2_Armadni_Informacni_System.Views;
 
 public class PrehledVojaciViewModel : INotifyPropertyChanged
 {
@@ -29,6 +31,7 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     public RelayCommand AddCommand { get; set; }
     public RelayCommand SaveCommand { get; set; }
     public RelayCommand DeleteCommand { get; set; }
+    public RelayCommand ShowCommand { get; set; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -67,7 +70,54 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         AddCommand = new RelayCommand(AddVojak);
         SaveCommand = new RelayCommand(SaveVojak);
         DeleteCommand = new RelayCommand(DeleteVojak);
+        ShowCommand = new RelayCommand(ShowNadrizeny);
     }
+
+    private void ShowNadrizeny()
+    {
+        if (SelectedVojak == null) return;
+
+        try
+        {
+            // SQL příkaz s dynamickou hodnotou
+            string createViewQuery = $@"
+            CREATE OR REPLACE VIEW prehled_nadryzenych AS
+            SELECT 
+                LEVEL AS LEVEL_VOJAKA, 
+                v.ID_VOJAK, 
+                v.JMENO, 
+                v.PRIJMENI, 
+                h.NAZEV AS HODNOST,
+                v.ID_PRIMY_NADRIZENY
+            FROM 
+                VOJACI v
+            JOIN 
+                HODNOSTI h ON v.ID_HODNOST = h.ID_HODNOST
+            START WITH v.ID_VOJAK = {SelectedVojak.IdVojak}
+            CONNECT BY PRIOR v.ID_PRIMY_NADRIZENY = v.ID_VOJAK  
+            AND LEVEL <= 4";
+
+            using (var connection = _database.GetOpenConnection())
+            {
+                using (var createCommand = new OracleCommand(createViewQuery, connection))
+                {
+                    createCommand.ExecuteNonQuery();
+                }
+            }
+
+            // Zobrazení view
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            if (mainWindow != null)
+            {
+                mainWindow.MainFrame.Content = new PrehledNadrizenychView();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Chyba: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
 
     private void SaveVojak()
     {
