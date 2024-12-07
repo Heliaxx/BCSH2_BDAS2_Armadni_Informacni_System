@@ -91,6 +91,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             MainFrame.Content = new PrehledSkoleniView();
         }
 
+        private void Role_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledRoleView();
+        }
+
         private void Nadrizeni_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new PrehledNadrizenychView();

@@ -108,6 +108,7 @@
     <Compile Include="Models\PrehledJednotky.cs" />
     <Compile Include="Models\PrehledLogy.cs" />
     <Compile Include="Models\PrehledNadrizenych.cs" />
+    <Compile Include="Models\PrehledRole.cs" />
     <Compile Include="Models\PrehledSkoleni.cs" />
     <Compile Include="Models\PrehledUzivatele.cs" />
     <Compile Include="Models\PrehledVojaci.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="ViewModels\PrehledJednotkyViewModel.cs" />
     <Compile Include="ViewModels\PrehledLogyViewModel.cs" />
     <Compile Include="ViewModels\PrehledNadrizenychViewModel.cs" />
+    <Compile Include="ViewModels\PrehledRoleViewModel.cs" />
     <Compile Include="ViewModels\PrehledSkoleniViewModel.cs" />
     <Compile Include="ViewModels\PrehledUzivateleViewModel.cs" />
     <Compile Include="ViewModels\PrehledVojaciViewModel.cs" />
@@ -146,6 +148,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PrehledRoleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PrehledSkoleniView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +174,9 @@
     </Compile>
     <Compile Include="Views\PrehledNadrizenychView.xaml.cs">
       <DependentUpon>PrehledNadrizenychView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledRoleView.xaml.cs">
+      <DependentUpon>PrehledRoleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PrehledSkoleniView.xaml.cs">
       <DependentUpon>PrehledSkoleniView.xaml</DependentUpon>

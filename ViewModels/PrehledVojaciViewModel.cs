@@ -11,6 +11,7 @@ using System.Windows;
 using System.Data;
 using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
 using BCSH2_BDAS2_Armadni_Informacni_System.Views;
+using System.Windows.Input;
 
 public class PrehledVojaciViewModel : INotifyPropertyChanged
 {
@@ -36,7 +37,6 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
     public ObservableCollection<PrehledVojaci> Vojaci { get; set; } = new ObservableCollection<PrehledVojaci>();
-
     public PrehledVojaci SelectedVojak
     {
         get { return _selectedVojak; }
@@ -132,13 +132,13 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = SelectedVojak.JednotkaId;
+            command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = SelectedVojak.IdVojak;
             command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = SelectedVojak.Jmeno;
             command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = SelectedVojak.Prijmeni;
             command.Parameters.Add("p_datum_nastupu", OracleDbType.Date).Value = SelectedVojak.DatumNastupu;
             command.Parameters.Add("p_datum_propusteni", OracleDbType.Date).Value = SelectedVojak.DatumPropusteni ?? (object)DBNull.Value;
-            command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = SelectedVojak.Email;
-            command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo;
+            command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = SelectedVojak.Email ?? "placeholder";
+            command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo ?? "placeholder";
             command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = SelectedVojak.HodnostId;
             command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = SelectedVojak.JednotkaId ?? (object)DBNull.Value;
             command.Parameters.Add("p_id_primy_nadrizeny", OracleDbType.Int32).Value = SelectedVojak.PrimyNadrizenyId ?? (object)DBNull.Value;
@@ -161,41 +161,7 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
 
     private void AddVojak()
     {
-        using (var connection = _database.GetOpenConnection())
-        {
-            var command = new OracleCommand("BEGIN edit_vojaci(NULL, :jmeno, :prijmeni, :datumNastupu, :datumPropusteni, :email, :heslo, :idHodnost, :idJednotka, :idPrimyNadrizeny); END;", connection);
-
-            // Přidání parametrů
-            command.Parameters.Add(new OracleParameter(":jmeno", ""));
-            command.Parameters.Add(new OracleParameter(":prijmeni", ""));
-            command.Parameters.Add(new OracleParameter(":datumNastupu", DateTime.Now));
-            command.Parameters.Add(new OracleParameter(":datumPropusteni", SelectedVojak.DatumPropusteni ?? (object)DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":email", DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":heslo", DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":idHodnost", 1));
-            command.Parameters.Add(new OracleParameter(":idJednotka", DBNull.Value));
-            command.Parameters.Add(new OracleParameter(":idPrimyNadrizeny", DBNull.Value)); // Přímý nadřízený (zatím NULL)
-
-            //command.Parameters.Add(new OracleParameter(":idHodnost", 1));
-
-            // Spuštění procedury
-            command.ExecuteNonQuery();
-        }
-
-        SelectedVojak = new PrehledVojaci
-        {
-            Jmeno = "",
-            Prijmeni = "",
-            DatumNastupu = DateTime.Now,
-            DatumPropusteni = null,
-            Hodnost = Hodnosti.FirstOrDefault()?.Nazev ?? "",
-            Jednotka = Jednotky.FirstOrDefault()?.Nazev ?? "",
-            HodnostId = Hodnosti.FirstOrDefault()?.IdHodnost ?? 0,
-            JednotkaId = -1
-        };
-
-        // Přepnutí do detailního pohledu pro úpravu
-        OnPropertyChanged(nameof(SelectedVojak));
+        SelectedVojak = null;
         LoadVojaci();
     }
 
