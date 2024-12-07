@@ -24,28 +24,24 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                     // Nastavíme možnosti pouze pro administrátora
                     VojakViewButton.IsEnabled = true;
                     Logy.IsEnabled = true;
-                    Uzivatele.IsEnabled = true;
                     break;
 
                 case "Důstojníci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
                     Logy.Visibility = Visibility.Collapsed;
-                    Uzivatele.IsEnabled = true;
                     break;
 
                 case "Poddůstojníci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
                     Logy.Visibility = Visibility.Collapsed;
-                    Uzivatele.Visibility = Visibility.Collapsed;
                     break;
 
                 case "Vojáci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
                     Logy.Visibility = Visibility.Collapsed;
-                    Uzivatele.Visibility = Visibility.Collapsed;
                     break;
 
                 default:

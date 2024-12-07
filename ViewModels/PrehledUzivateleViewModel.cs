@@ -11,14 +11,14 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     internal class PrehledUzivateleViewModel : INotifyPropertyChanged
     {
         private readonly Database _database;
-        public ObservableCollection<Uzivatel> Uzivatele { get; set; } = new ObservableCollection<Uzivatel>();
+        public ObservableCollection<PrehledUzivatele> Uzivatele { get; set; } = new ObservableCollection<PrehledUzivatele>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public PrehledUzivateleViewModel()
         {
             _database = new Database();
-            LoadUzivatele(); 
+            LoadUzivatele();
         }
 
         // Metoda pro načítání uživatelů z databáze
@@ -32,15 +32,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
                 while (reader.Read())
                 {
-                    Uzivatele.Add(new Uzivatel
+                    var email = ProfilUzivateleManager.CurrentUser.Role.Equals("Generálové", StringComparison.OrdinalIgnoreCase) ? reader.GetString(3) : "*****";
+
+                    Uzivatele.Add(new PrehledUzivatele
                     {
-                        id_vojak = reader.GetInt32(0), 
+                        id_vojak = reader.GetInt32(0),
                         jmeno = reader.GetString(1),
                         prijmeni = reader.GetString(2),
-                        email = reader.GetString(3),
+                        email = email,  // Zde přiřadíme email nebo maskovaný text
                         nazev_hodnosti = reader.GetString(4),
                         nazev_role = reader.GetString(5)
-                    }); 
+                    });
                 }
             }
         }

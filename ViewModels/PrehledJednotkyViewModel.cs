@@ -30,6 +30,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             }
         }
 
+        private bool _canEdit = false;
+        public bool CanEdit
+        {
+            get => _canEdit;
+            set
+            {
+                _canEdit = value;
+                OnPropertyChanged(nameof(CanEdit));
+            }
+        }
+
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
         public ICommand AddCommand { get; }
@@ -43,6 +54,13 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             SaveCommand = new RelayCommand(SaveJednotka);
             DeleteCommand = new RelayCommand(DeleteJednotka);
             AddCommand = new RelayCommand(AddJednotka);
+            SetUserRolePermissions();
+        }
+
+        private void SetUserRolePermissions()
+        {
+            string userRole = ProfilUzivateleManager.CurrentUser?.Role;
+            CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
         }
 
         // Načítání útvarů z databáze
