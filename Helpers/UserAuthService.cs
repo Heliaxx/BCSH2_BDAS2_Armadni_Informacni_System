@@ -56,6 +56,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             }
             return false; // Přihlášení selhalo
         }
+
         public void RegisterUser(string heslo, string jmeno, string prijmeni)
         {
             // Funkce pro odstranění diakritiky

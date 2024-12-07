@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\PrehledSkoleniViewModel.cs" />
     <Compile Include="ViewModels\PrehledUzivateleViewModel.cs" />
     <Compile Include="ViewModels\PrehledVojaciViewModel.cs" />
+    <Compile Include="ViewModels\ProfilUzivatele.cs" />
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

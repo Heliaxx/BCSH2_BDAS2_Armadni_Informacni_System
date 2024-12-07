@@ -109,9 +109,15 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
             var mainWindow = Application.Current.MainWindow as MainWindow;
             if (mainWindow != null)
             {
+                Console.WriteLine("Zobrazujeme PrehledNadrizenychView.");
                 mainWindow.MainFrame.Content = new PrehledNadrizenychView();
             }
+            else
+            {
+                Console.WriteLine("Hlavní okno není dostupné.");
+            }
         }
+
         catch (Exception ex)
         {
             MessageBox.Show($"Chyba: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);

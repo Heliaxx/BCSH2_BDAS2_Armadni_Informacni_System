@@ -24,8 +24,8 @@
                   Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Název" Binding="{Binding Nazev}" Width="*" />
-                <DataGridTextColumn Header="Datum od" Binding="{Binding DatumOd}" Width="*" />
-                <DataGridTextColumn Header="Datum do" Binding="{Binding DatumDo}" Width="*" />
+                <DataGridTextColumn Header="Datum od" Binding="{Binding DatumOd, StringFormat='dd/MM/yyyy'}" Width="*" />
+                <DataGridTextColumn Header="Datum do" Binding="{Binding DatumDo, StringFormat='dd/MM/yyyy'}" Width="*" />
                 <DataGridTextColumn Header="Místo" Binding="{Binding Misto}" Width="*" />
                 <DataGridTextColumn Header="Počet účastníků" Binding="{Binding PocetUcastniku}" Width="*" />
             </DataGrid.Columns>
@@ -48,10 +48,18 @@
             <TextBox Grid.Column="1" Grid.Row="0" Margin="3" Text="{Binding SelectedSkoleni.Nazev}" />
 
             <Label Content="Datum od:" Grid.Column="0" Grid.Row="1" />
-            <DatePicker Grid.Column="1" Grid.Row="1" Margin="3" SelectedDate="{Binding SelectedSkoleni.DatumOd}" />
+            <DatePicker Grid.Column="1" Grid.Row="1" Margin="3" SelectedDate="{Binding SelectedSkoleni.DatumOd}">
+                <DatePicker.SelectedDateFormat>
+                    <Binding Path="SelectedSkoleni.DatumOd" StringFormat="dd/MM/yyyy" />
+                </DatePicker.SelectedDateFormat>
+            </DatePicker>
 
             <Label Content="Datum do:" Grid.Column="0" Grid.Row="2" />
-            <DatePicker Grid.Column="1" Grid.Row="2" Margin="3" SelectedDate="{Binding SelectedSkoleni.DatumDo}" />
+            <DatePicker Grid.Column="1" Grid.Row="2" Margin="3" SelectedDate="{Binding SelectedSkoleni.DatumDo}">
+                <DatePicker.SelectedDateFormat>
+                    <Binding Path="SelectedSkoleni.DatumDo" StringFormat="dd/MM/yyyy" />
+                </DatePicker.SelectedDateFormat>
+            </DatePicker>
 
             <Label Content="Místo:" Grid.Column="0" Grid.Row="3" />
             <TextBox Grid.Column="1" Grid.Row="3" Margin="3" Text="{Binding SelectedSkoleni.Misto}" />
@@ -61,7 +69,7 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Zrušit výběr" Width="100" Command="{Binding ClearSelectionCommand}" Margin="5" />
+            <Button Content="Přidat" Width="100" Command="{Binding AddCommand}" Margin="5" />
             <Button Content="Uložit" Width="100" Command="{Binding SaveCommand}" Margin="5" />
             <Button Content="Smazat" Width="100" Command="{Binding DeleteCommand}" Margin="5" />
         </StackPanel>

@@ -29,7 +29,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
-        public ICommand ClearSelectionCommand { get; set; }
+        public ICommand AddCommand { get; set; }
 
         // Konstruktor
         public PrehledSkoleniViewModel()
@@ -38,7 +38,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             LoadSkoleni();
             SaveCommand = new RelayCommand(SaveSkoleni);
             DeleteCommand = new RelayCommand(DeleteSkoleni);
-            ClearSelectionCommand = new RelayCommand(ClearSelection);
+            AddCommand = new RelayCommand(AddSkoleni);
         }
 
         // Načítání školení z databáze
@@ -61,6 +61,12 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         PocetUcastniku = reader.GetInt32(5)
                     });
                 }
+            }
+
+            // Pokud není vybrán žádný prvek, nastaví se na první prvek v seznamu
+            if (SelectedSkoleni == null && Skoleni.Count > 0)
+            {
+                SelectedSkoleni = Skoleni[0];
             }
         }
 
@@ -94,10 +100,34 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
         }
 
         // Vymazání výběru
-        private void ClearSelection()
+        private void AddSkoleni()
         {
-            SelectedSkoleni = null;
-            LoadSkoleni();
+            if (SelectedSkoleni == null) return;
+            try
+            {
+                using (var connection = _database.GetOpenConnection())
+                {
+                    var command = new OracleCommand("edit_skoleni", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+
+                    command.Parameters.Add("p_id_skoleni", OracleDbType.Int32).Value = DBNull.Value;
+                    command.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = SelectedSkoleni.Nazev;
+                    command.Parameters.Add("p_datum_od", OracleDbType.Date).Value = SelectedSkoleni.DatumOd;
+                    command.Parameters.Add("p_datum_do", OracleDbType.Date).Value = SelectedSkoleni.DatumDo;
+                    command.Parameters.Add("p_misto", OracleDbType.Varchar2).Value = SelectedSkoleni.Misto;
+                    command.Parameters.Add("p_pocet_ucastniku", OracleDbType.Int32).Value = SelectedSkoleni.PocetUcastniku;
+
+                    command.ExecuteNonQuery();
+                }
+
+                LoadSkoleni();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Chyba při ukládání školení: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // Smazání školení
