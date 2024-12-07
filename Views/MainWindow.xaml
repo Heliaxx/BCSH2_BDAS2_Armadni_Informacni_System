@@ -17,11 +17,11 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,115,0" Height="55">
             <Button Name="VojakViewButton" Content="Vojaci" Click="VojakViewButton_Click" Width="60" Height="20" Margin="10" />
             <Button x:Name="Skoleni" Content="Skoleni" Click="Skoleni_Click" Width="60" Height="20" Margin="10"/>
-            <Button x:Name="Uzivatele" Content="Uzivatele" Click="Uzivatele_Click" Width="60" Height="20" Margin="10"/>
-            <Button x:Name="Jednotky" Content="Jednotky" Click="Jednotky_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Soubory" Content="Soubory" Click="Soubory_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="SystemovyKatalog" Content="Sys. katalog" Click="Systemovy_Katalog_Click" Width="80" Height="20" Margin="10"/>
+            <Button x:Name="Jednotky" Content="Jednotky" Click="Jednotky_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Specializace" Content="Specializace" Click="Specializace_Click" Width="80" Height="20" Margin="10"/>
+            <Button x:Name="Uzivatele" Content="Uzivatele" Click="Uzivatele_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Technika" Content="Technika" Click="Technika_Click" Width="80" Height="20" Margin="10"/>
             <Button x:Name="Role" Content="Role" Click="Role_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Utvary" Content="Útvary" Click="Utvary_Click" Width="60" Height="20" Margin="10"/>

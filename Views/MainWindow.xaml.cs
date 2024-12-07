@@ -30,18 +30,29 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
                     Logy.Visibility = Visibility.Collapsed;
+                    Utvary.Visibility = Visibility.Collapsed;
+                    Role.Visibility = Visibility.Collapsed;
                     break;
 
                 case "Poddůstojníci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
                     Logy.Visibility = Visibility.Collapsed;
+                    Utvary.Visibility = Visibility.Collapsed;
+                    Role.Visibility = Visibility.Collapsed;
+                    Technika.Visibility = Visibility.Collapsed;
                     break;
 
                 case "Vojáci":
                     // Nastavíme možnosti pro běžného uživatele
                     VojakViewButton.IsEnabled = true;
                     Logy.Visibility = Visibility.Collapsed;
+                    Utvary.Visibility = Visibility.Collapsed;
+                    Role.Visibility = Visibility.Collapsed;
+                    Specializace.Visibility = Visibility.Collapsed;
+                    Uzivatele.Visibility = Visibility.Collapsed;
+                    Technika.Visibility = Visibility.Collapsed;
+                    Jednotky.Visibility = Visibility.Collapsed;
                     break;
 
                 default:
@@ -49,6 +60,12 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                     VojakViewButton.IsEnabled = false;
                     Logy.Visibility = Visibility.Collapsed;
                     Uzivatele.Visibility = Visibility.Collapsed;
+                    Utvary.Visibility = Visibility.Collapsed;
+                    Role.Visibility = Visibility.Collapsed;
+                    Specializace.Visibility = Visibility.Collapsed;
+                    Uzivatele.Visibility = Visibility.Collapsed;
+                    Technika.Visibility = Visibility.Collapsed;
+                    Jednotky.Visibility = Visibility.Collapsed;
                     MessageBox.Show("Nemáte oprávnění k přístupu do této aplikace.");
                     Close();
                     break;
