@@ -18,8 +18,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     {
         private readonly Database _database;
         private PrehledSpecializace _selectedSpecializace;
+        private string _searchText;
 
         public ObservableCollection<PrehledSpecializace> Specializace { get; set; } = new ObservableCollection<PrehledSpecializace>();
+        public ObservableCollection<PrehledSpecializace> FilteredSpecializace { get; private set; } = new ObservableCollection<PrehledSpecializace>();
         public ObservableCollection<Utvary> Utvary { get; set; } = new ObservableCollection<Utvary>();
 
         public PrehledSpecializace SelectedSpecializace
@@ -29,6 +31,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedSpecializace = value;
                 OnPropertyChanged(nameof(SelectedSpecializace));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -64,22 +77,40 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
         }
 
+        private void ApplyFilter()
+        {
+            FilteredSpecializace.Clear();
+
+            foreach (var specializace in Specializace)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    specializace.nazev.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    specializace.popis.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredSpecializace.Add(specializace);
+                }
+            }
+        }
+
         private void LoadSpecializace()
         {
             Specializace.Clear();
+            FilteredSpecializace.Clear();
             using (var connection = _database.GetOpenConnection())
             {
                 var command = new OracleCommand("SELECT * FROM PREHLED_SPECIALIZACE", connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Specializace.Add(new PrehledSpecializace
+                    var specializace = new PrehledSpecializace
                     {
                         id_specializace = reader.GetInt32(0),
                         nazev = reader.GetString(1),
                         stupen_narocnosti = reader.GetInt32(2),
                         popis = reader.GetString(3)
-                    });
+                    };
+                    Specializace.Add(specializace);
+                    FilteredSpecializace.Add(specializace);
                 }
             }
 
