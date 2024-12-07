@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\motlt\Documents\UPCE\BCSH2\BCSH2_BDAS2_Armadni_Informacni_System\Views\App.xaml
-9-1965086595
+10705454963
 
-42250208098
+45-917941863
 271026635637
-Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychView.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;
+Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychView.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledSpecializaceView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;
 
-False
+True
 
