@@ -1,4 +1,5 @@
 ﻿using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
+using BCSH2_BDAS2_Armadni_Informacni_System.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,14 +77,13 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             string passwordInput = password.Text;
 
             UserAuthService authService = new UserAuthService();
-            string userRole;
 
-            bool isAuthenticated = authService.AuthenticateUser(emailInput, passwordInput, out userRole);
+            bool isAuthenticated = authService.AuthenticateUser(emailInput, passwordInput);
             Console.WriteLine($"Authenticated: {isAuthenticated}");
             if (isAuthenticated)
             {
-                MessageBox.Show($"Přihlášení úspěšné. Role: {userRole}");
-                MainWindow mainWindow = new MainWindow(userRole);
+                MessageBox.Show($"Přihlášení úspěšné. Role: {ProfilUzivateleManager.CurrentUser.Role}");
+                MainWindow mainWindow = new MainWindow(ProfilUzivateleManager.CurrentUser.Role);
                 mainWindow.Show();
                 this.Close();
             }

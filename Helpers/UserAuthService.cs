@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows;
 using System.Linq;
 using System.Globalization;
+using BCSH2_BDAS2_Armadni_Informacni_System.Models;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System
 {
@@ -22,18 +23,13 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         }
 
         // Ověření uživatele na základě e-mailu a hesla
-        public bool AuthenticateUser(string email, string heslo, out string userRole)
+        public bool AuthenticateUser(string email, string heslo)
         {
-            userRole = string.Empty;
             string storedHash;
-
-            //Console.WriteLine($"pwdHash: {passwordHash}");
-            Debug.WriteLine($"pwdHash: {heslo}");
 
             using (var con = _database.GetOpenConnection())
             {
                 var command = new OracleCommand(
-                    // "SELECT Heslo FROM Vojaci WHERE Email = :email",
                     "SELECT V.Heslo, R.Nazev AS RoleName " +
                     "FROM Vojaci V " +
                     "JOIN Hodnosti H ON V.Id_Hodnost = H.Id_Hodnost " +
@@ -48,14 +44,25 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                     if (reader.Read())
                     {
                         storedHash = reader["Heslo"].ToString();
-                        userRole = reader["RoleName"].ToString();
+                        string userRole = reader["RoleName"].ToString();
+
                         // Porovnání hesla pomocí hashovacího algoritmu
-                        return PasswordHasher.VerifyPassword(heslo, storedHash);
+                        if (PasswordHasher.VerifyPassword(heslo, storedHash))
+                        {
+                            // Pokud je přihlášení úspěšné, uložíme informace o uživateli
+                            ProfilUzivateleManager.CurrentUser = new ProfilUzivatele
+                            {
+                                Email = email,
+                                Role = userRole
+                            };
+                            return true;
+                        }
                     }
                 }
             }
             return false; // Přihlášení selhalo
         }
+
         public void RegisterUser(string heslo, string jmeno, string prijmeni)
         {
             // Funkce pro odstranění diakritiky

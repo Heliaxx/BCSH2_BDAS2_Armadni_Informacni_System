@@ -32,7 +32,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
-        public ICommand ClearSelectionCommand { get; set; }
+        public ICommand AddCommand { get; }
 
         // Konstruktor
         public PrehledJednotkyViewModel()
@@ -42,7 +42,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             LoadJednotky();
             SaveCommand = new RelayCommand(SaveJednotka);
             DeleteCommand = new RelayCommand(DeleteJednotka);
-            ClearSelectionCommand = new RelayCommand(ClearSelection);
+            AddCommand = new RelayCommand(AddJednotka);
         }
 
         // Načítání útvarů z databáze
@@ -86,6 +86,12 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                     });
                 }
             }
+
+            // Pokud není vybrána žádná jednotka, nastaví se na první prvek
+            if (SelectedJednotka == null && Jednotky.Count > 0)
+            {
+                SelectedJednotka = Jednotky[0];
+            }
         }
 
         // Uložení vybrané jednotky
@@ -116,10 +122,32 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             }
         }
 
-        private void ClearSelection()
+        private void AddJednotka()
         {
-            SelectedJednotka = null;
-            LoadJednotky();
+            if (SelectedJednotka == null) return;
+            try
+            {
+                using (var connection = _database.GetOpenConnection())
+                {
+                    var command = new OracleCommand("edit_jednotky", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+
+                    command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = DBNull.Value;
+                    command.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = SelectedJednotka.Nazev;
+                    command.Parameters.Add("p_typ", OracleDbType.Varchar2).Value = SelectedJednotka.Typ;
+                    command.Parameters.Add("p_velikost", OracleDbType.Int32).Value = SelectedJednotka.Velikost;
+                    command.Parameters.Add("p_id_utvar", OracleDbType.Int32).Value = SelectedJednotka.IdUtvar;
+
+                    command.ExecuteNonQuery();
+                }
+                LoadJednotky();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Chyba při ukládání jednotky: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void DeleteJednotka()

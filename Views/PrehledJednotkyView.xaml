@@ -66,7 +66,7 @@
 
         <!-- Tlačítka pro operace -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-            <Button Content="Zrušit výběr" Width="100" Margin="5" Command="{Binding ClearSelectionCommand}" />
+            <Button Content="Přidat" Width="100" Margin="5" Command="{Binding AddCommand}" />
             <Button Content="Uložit" Width="100" Margin="5" Command="{Binding SaveCommand}" />
             <Button Content="Smazat" Width="100" Margin="5" Command="{Binding DeleteCommand}" />
         </StackPanel>
