@@ -101,5 +101,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         {
             MainFrame.Content = new PrehledSpecializaceView();
         }
+
+        private void Systemovy_Katalog_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new DatabaseObjectsView();
+        }
     }
 }

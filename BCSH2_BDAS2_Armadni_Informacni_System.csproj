@@ -93,12 +93,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\DatabaseObject.cs" />
+    <Compile Include="ViewModels\DatabaseObjectsViewModel.cs" />
+    <Compile Include="Views\DatabaseObjectsView.xaml.cs">
+      <DependentUpon>DatabaseObjectsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PrehledNadrizenychWindow.xaml.cs">
       <DependentUpon>PrehledNadrizenychWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SouborWindow.xaml.cs">
       <DependentUpon>SouborWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DatabaseObjectsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
