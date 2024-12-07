@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Saunic\Source\Repos\BCSH2_BDAS2_Armadni_Informacni_System_2\Views\App.xaml
-12-1937212754
+13242202120
 
-49-756943057
+521797549171
 27-12303813
-Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychWindow.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledSpecializaceView.xaml;Views\PrehledSouboryView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;Views\SouborWindow.xaml;
+Views\DatabaseObjectsView.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychWindow.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledSpecializaceView.xaml;Views\PrehledSouboryView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;Views\SouborWindow.xaml;
 
 True
 
