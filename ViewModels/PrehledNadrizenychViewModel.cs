@@ -1,55 +1,47 @@
-﻿using BCSH2_BDAS2_Armadni_Informacni_System.Models;
-using Oracle.ManagedDataAccess.Client;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using BCSH2_BDAS2_Armadni_Informacni_System.Models;
+using Oracle.ManagedDataAccess.Client;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 {
-    public class PrehledNadrizeniViewModel : INotifyPropertyChanged
+    internal class PrehledNadrizenychViewModel : INotifyPropertyChanged
     {
         private readonly Database _database;
 
+        public ObservableCollection<PrehledNadrizenych> Nadrizeni { get; set; } = new ObservableCollection<PrehledNadrizenych>();
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public ObservableCollection<Nadrizeni> Nadrizeni { get; set; } = new ObservableCollection<Nadrizeni>();
-
-        public PrehledNadrizeniViewModel()
+        public PrehledNadrizenychViewModel()
         {
             _database = new Database();
             LoadNadrizeni();
         }
 
-        public void LoadNadrizeni()
+        private void OnPropertyChanged(string propertyName)
         {
-            Nadrizeni.Clear();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
-            string query = "SELECT LEVEL_VOJAKA, ID_VOJAK, JMENO, PRIJMENI, HODNOST, ID_PRIMY_NADRIZENY FROM PREHLED_NADRYZENYCH";
-
+        private void LoadNadrizeni()
+        {
             using (var connection = _database.GetOpenConnection())
             {
-                var command = new OracleCommand(query, connection);
-
+                var command = new OracleCommand("SELECT * FROM PREHLED_NADRYZENYCH", connection);
                 var reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Nadrizeni.Add(new Nadrizeni
+                    Nadrizeni.Add(new PrehledNadrizenych
                     {
                         LevelVojaka = reader.GetInt32(0),
-                        IdVojak = reader.GetInt32(1),
-                        Jmeno = reader.GetString(2),
-                        Prijmeni = reader.GetString(3),
-                        Hodnost = reader.GetString(4),
-                        IdPrimyNadrizeny = reader.IsDBNull(5) ? (int?)null : reader.GetInt32(5)
+                        Jmeno = reader.GetString(1),
+                        Prijmeni = reader.GetString(2),
+                        Hodnost = reader.GetString(3)
                     });
                 }
             }
         }
-
     }
 }

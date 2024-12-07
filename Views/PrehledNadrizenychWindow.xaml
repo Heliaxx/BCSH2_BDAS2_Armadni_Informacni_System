@@ -1,0 +1,26 @@
+﻿<Window x:Class="BCSH2_BDAS2_Armadni_Informacni_System.Views.PrehledNadrizenychWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.Views"
+        mc:Ignorable="d"
+        Title="Přehled nadřízených" Height="450" Width="800">
+    <Grid Margin="10">
+        <DataGrid x:Name="DataGridNadrizeni" AutoGenerateColumns="False" ItemsSource="{Binding Nadrizeni}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <DataGrid.Columns>
+                <!-- Sloupec pro Level Vojaka, má pevnou šířku -->
+                <DataGridTextColumn Header="Level" Binding="{Binding LevelVojaka}" Width="50" />
+
+                <!-- Sloupec pro Jméno, roztáhne se na dostupný prostor -->
+                <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*" />
+
+                <!-- Sloupec pro Příjmení, roztáhne se na dostupný prostor -->
+                <DataGridTextColumn Header="Příjmení" Binding="{Binding Prijmeni}" Width="*" />
+
+                <!-- Sloupec pro Hodnost, roztáhne se na dostupný prostor -->
+                <DataGridTextColumn Header="Hodnost" Binding="{Binding Hodnost}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

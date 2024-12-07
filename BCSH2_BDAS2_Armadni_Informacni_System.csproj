@@ -93,6 +93,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\PrehledNadrizenychWindow.xaml.cs">
+      <DependentUpon>PrehledNadrizenychWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SouborWindow.xaml.cs">
       <DependentUpon>SouborWindow.xaml</DependentUpon>
     </Compile>
@@ -155,7 +158,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PrehledNadrizenychView.xaml">
+    <Page Include="Views\PrehledNadrizenychWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,9 +197,6 @@
     </Compile>
     <Compile Include="Views\PrehledLogyView.xaml.cs">
       <DependentUpon>PrehledLogyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PrehledNadrizenychView.xaml.cs">
-      <DependentUpon>PrehledNadrizenychView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PrehledRoleView.xaml.cs">
       <DependentUpon>PrehledRoleView.xaml</DependentUpon>

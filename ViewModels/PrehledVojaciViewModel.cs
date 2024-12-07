@@ -84,11 +84,9 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
             CREATE OR REPLACE VIEW prehled_nadryzenych AS
             SELECT 
                 LEVEL AS LEVEL_VOJAKA, 
-                v.ID_VOJAK, 
                 v.JMENO, 
                 v.PRIJMENI, 
-                h.NAZEV AS HODNOST,
-                v.ID_PRIMY_NADRIZENY
+                h.NAZEV AS HODNOST
             FROM 
                 VOJACI v
             JOIN 
@@ -105,59 +103,50 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
                 }
             }
 
-            // Zobrazení view
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            if (mainWindow != null)
-            {
-                Console.WriteLine("Zobrazujeme PrehledNadrizenychView.");
-                mainWindow.MainFrame.Content = new PrehledNadrizenychView();
-            }
-            else
-            {
-                Console.WriteLine("Hlavní okno není dostupné.");
-            }
+            // Otevření okna pro zobrazení pohledu
+            var nadrizeniWindow = new PrehledNadrizenychWindow();
+            nadrizeniWindow.Show();
         }
-
         catch (Exception ex)
         {
             MessageBox.Show($"Chyba: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
-
     private void SaveVojak()
     {
         if (SelectedVojak == null) return;
 
-        try { 
-
-        using (var connection = _database.GetOpenConnection())
+        try
         {
-            var command = new OracleCommand("edit_vojaci", connection)
+
+            using (var connection = _database.GetOpenConnection())
             {
-                CommandType = CommandType.StoredProcedure
-            };
+                var command = new OracleCommand("edit_vojaci", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
 
-            string email = EmailParser.GenerateEmail(SelectedVojak.Jmeno, SelectedVojak.Prijmeni);
+                string email = EmailParser.GenerateEmail(SelectedVojak.Jmeno, SelectedVojak.Prijmeni);
 
-            command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = SelectedVojak.IdVojak;
-            command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = SelectedVojak.Jmeno;
-            command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = SelectedVojak.Prijmeni;
-            command.Parameters.Add("p_datum_nastupu", OracleDbType.Date).Value = SelectedVojak.DatumNastupu;
-            command.Parameters.Add("p_datum_propusteni", OracleDbType.Date).Value = SelectedVojak.DatumPropusteni ?? (object)DBNull.Value;
-            command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = email;
-            command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo;
-            command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = SelectedVojak.HodnostId;
-            command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = SelectedVojak.JednotkaId ?? (object)DBNull.Value;
-            command.Parameters.Add("p_id_primy_nadrizeny", OracleDbType.Int32).Value = SelectedVojak.PrimyNadrizenyId ?? (object)DBNull.Value;
+                command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = SelectedVojak.IdVojak;
+                command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = SelectedVojak.Jmeno;
+                command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = SelectedVojak.Prijmeni;
+                command.Parameters.Add("p_datum_nastupu", OracleDbType.Date).Value = SelectedVojak.DatumNastupu;
+                command.Parameters.Add("p_datum_propusteni", OracleDbType.Date).Value = SelectedVojak.DatumPropusteni ?? (object)DBNull.Value;
+                command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = email;
+                command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo;
+                command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = SelectedVojak.HodnostId;
+                command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = SelectedVojak.JednotkaId ?? (object)DBNull.Value;
+                command.Parameters.Add("p_id_primy_nadrizeny", OracleDbType.Int32).Value = SelectedVojak.PrimyNadrizenyId ?? (object)DBNull.Value;
 
                 // Spuštění procedury
                 command.ExecuteNonQuery();
-        }
+            }
 
-        // Aktualizace seznamu vojáků
-        LoadVojaci();
-        
+            // Aktualizace seznamu vojáků
+            LoadVojaci();
+
         }
         catch (OracleException ex)
         {
@@ -308,8 +297,8 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         }
     }
 
-        // Načítání vojáků z databáze
-        private void LoadVojaci()
+    // Načítání vojáků z databáze
+    private void LoadVojaci()
     {
         Vojaci.Clear();
 
