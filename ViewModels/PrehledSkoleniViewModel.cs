@@ -57,7 +57,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             string userRole = ProfilUzivateleManager.CurrentUser?.Role;
 
             // Pokud je role "Vojáci" nebo "Poddůstojníci", skryjeme tlačítka pro úpravy
-            CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci");
+            CanEdit = !(userRole == "Vojáci");
         }
 
         // Načítání školení z databáze

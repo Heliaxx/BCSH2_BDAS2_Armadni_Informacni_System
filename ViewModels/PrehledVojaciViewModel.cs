@@ -57,6 +57,17 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         }
     }
 
+    private bool _canEdit = false;
+    public bool CanEdit
+    {
+        get => _canEdit;
+        set
+        {
+            _canEdit = value;
+            OnPropertyChanged(nameof(CanEdit));
+        }
+    }
+
     // Vlastnosti pro výběr hodnosti a jednotky
     public int HodnostId { get; set; }
     public int JednotkaId { get; set; }
@@ -71,6 +82,13 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         SaveCommand = new RelayCommand(SaveVojak);
         DeleteCommand = new RelayCommand(DeleteVojak);
         ShowCommand = new RelayCommand(ShowNadrizeny);
+        SetUserRolePermissions();
+    }
+
+    private void SetUserRolePermissions()
+    {
+        string userRole = ProfilUzivateleManager.CurrentUser?.Role;
+        CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
     }
 
     private void ShowNadrizeny()
