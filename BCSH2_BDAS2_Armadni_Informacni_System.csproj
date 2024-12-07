@@ -94,12 +94,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\DatabaseObject.cs" />
+    <Compile Include="Models\PrehledTechnika.cs" />
+    <Compile Include="Models\PrehledUtvar.cs" />
     <Compile Include="ViewModels\DatabaseObjectsViewModel.cs" />
+    <Compile Include="ViewModels\PrehledTechnikaModelView.cs" />
+    <Compile Include="ViewModels\PrehledUtvarViewModel.cs" />
     <Compile Include="Views\DatabaseObjectsView.xaml.cs">
       <DependentUpon>DatabaseObjectsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PrehledNadrizenychWindow.xaml.cs">
       <DependentUpon>PrehledNadrizenychWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledTechnikaView.xaml.cs">
+      <DependentUpon>PrehledTechnikaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledUtvarView.xaml.cs">
+      <DependentUpon>PrehledUtvarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SouborWindow.xaml.cs">
       <DependentUpon>SouborWindow.xaml</DependentUpon>
@@ -184,6 +194,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PrehledSouboryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrehledTechnikaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrehledUtvarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -21,8 +21,10 @@
             <Button x:Name="Jednotky" Content="Jednotky" Click="Jednotky_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Soubory" Content="Soubory" Click="Soubory_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="SystemovyKatalog" Content="Sys. katalog" Click="Systemovy_Katalog_Click" Width="80" Height="20" Margin="10"/>
-            <Button x:Name="Role" Content="Role" Click="Role_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Specializace" Content="Specializace" Click="Specializace_Click" Width="80" Height="20" Margin="10"/>
+            <Button x:Name="Technika" Content="Technika" Click="Technika_Click" Width="80" Height="20" Margin="10"/>
+            <Button x:Name="Role" Content="Role" Click="Role_Click" Width="60" Height="20" Margin="10"/>
+            <Button x:Name="Utvary" Content="Útvary" Click="Utvary_Click" Width="60" Height="20" Margin="10"/>
         </StackPanel>
         <Frame x:Name="MainFrame" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
         <TextBlock Name="StatusTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" TextAlignment="Center" />
