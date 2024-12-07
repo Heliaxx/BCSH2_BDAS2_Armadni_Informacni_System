@@ -16,8 +16,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     {
         private readonly Database _database;
         private PrehledJednotky _selectedJednotka;
+        private string _searchText;
 
         public ObservableCollection<PrehledJednotky> Jednotky { get; set; } = new ObservableCollection<PrehledJednotky>();
+        public ObservableCollection<PrehledJednotky> FilteredJednotky { get; private set; } = new ObservableCollection<PrehledJednotky>();
         public ObservableCollection<Utvary> Utvary { get; set; } = new ObservableCollection<Utvary>();
 
         public PrehledJednotky SelectedJednotka
@@ -27,6 +29,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedJednotka = value;
                 OnPropertyChanged(nameof(SelectedJednotka));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -63,6 +76,22 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
         }
 
+        private void ApplyFilter()
+        {
+            FilteredJednotky.Clear();
+
+            foreach (var jednotka in Jednotky)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    jednotka.Nazev.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    jednotka.Typ.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    jednotka.PatriPodUtvar.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredJednotky.Add(jednotka);
+                }
+            }
+        }
+
         // Načítání útvarů z databáze
         private void LoadUtvary()
         {
@@ -87,13 +116,14 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
         private void LoadJednotky()
         {
             Jednotky.Clear();
+            FilteredJednotky.Clear();
             using (var connection = _database.GetOpenConnection())
             {
                 var command = new OracleCommand("SELECT * FROM PREHLED_JEDNOTKY", connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Jednotky.Add(new PrehledJednotky
+                    var jednotky = new PrehledJednotky
                     {
                         IdJednotka = reader.GetInt32(0),
                         Nazev = reader.GetString(1),
@@ -101,7 +131,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         Velikost = reader.GetInt32(3),
                         IdUtvar = reader.GetInt32(4),
                         PatriPodUtvar = reader.GetString(5)
-                    });
+                    };
+                    Jednotky.Add(jednotky);
+                    FilteredJednotky.Add(jednotky);
                 }
             }
 
