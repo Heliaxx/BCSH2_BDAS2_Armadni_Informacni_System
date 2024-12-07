@@ -1,0 +1,10 @@
+﻿<Window x:Class="BCSH2_BDAS2_Armadni_Informacni_System.Views.SouborWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Soubor" Height="450" Width="800">
+    <Grid>
+        <!-- Dynamické zobrazení obrázku nebo textu -->
+        <Image x:Name="ImageView" Visibility="Collapsed" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="TextView" Visibility="Collapsed" Margin="10" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+    </Grid>
+</Window>
