@@ -5,9 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.Views"
       xmlns:viewmodels="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.ViewModels"
+      xmlns:helpers="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.Helpers"  
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PrehledSkoleniView">
+
+    <Page.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -69,9 +74,12 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Přidat" Width="100" Command="{Binding AddCommand}" Margin="5" />
-            <Button Content="Uložit" Width="100" Command="{Binding SaveCommand}" Margin="5" />
-            <Button Content="Smazat" Width="100" Command="{Binding DeleteCommand}" Margin="5" />
+            <Button Content="Přidat" Width="100" Command="{Binding AddCommand}" Margin="5" 
+            Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Content="Uložit" Width="100" Command="{Binding SaveCommand}" Margin="5" 
+            Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Content="Smazat" Width="100" Command="{Binding DeleteCommand}" Margin="5" 
+            Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </Page>

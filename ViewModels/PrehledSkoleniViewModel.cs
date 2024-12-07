@@ -27,6 +27,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             }
         }
 
+        private bool _canEdit = false;
+        public bool CanEdit
+        {
+            get => _canEdit;
+            set
+            {
+                _canEdit = value;
+                OnPropertyChanged(nameof(CanEdit));
+            }
+        }
+
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
         public ICommand AddCommand { get; set; }
@@ -39,6 +50,14 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             SaveCommand = new RelayCommand(SaveSkoleni);
             DeleteCommand = new RelayCommand(DeleteSkoleni);
             AddCommand = new RelayCommand(AddSkoleni);
+            SetUserRolePermissions();
+        }
+        private void SetUserRolePermissions()
+        {
+            string userRole = ProfilUzivateleManager.CurrentUser?.Role;
+
+            // Pokud je role "Vojáci" nebo "Poddůstojníci", skryjeme tlačítka pro úpravy
+            CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci");
         }
 
         // Načítání školení z databáze
