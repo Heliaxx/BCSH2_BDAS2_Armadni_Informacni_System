@@ -14,18 +14,18 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.Helpers
         {
             if (value is bool boolValue)
             {
-                return !boolValue;  
+                return !boolValue;
             }
-            return value; 
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool boolValue)
             {
-                return !boolValue;  
+                return !boolValue;
             }
-            return value;  
+            return value;
         }
     }
 }
