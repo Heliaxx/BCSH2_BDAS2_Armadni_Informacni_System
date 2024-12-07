@@ -138,13 +138,15 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
                 CommandType = CommandType.StoredProcedure
             };
 
+            string email = EmailParser.GenerateEmail(SelectedVojak.Jmeno, SelectedVojak.Prijmeni);
+
             command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = SelectedVojak.IdVojak;
             command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = SelectedVojak.Jmeno;
             command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = SelectedVojak.Prijmeni;
             command.Parameters.Add("p_datum_nastupu", OracleDbType.Date).Value = SelectedVojak.DatumNastupu;
             command.Parameters.Add("p_datum_propusteni", OracleDbType.Date).Value = SelectedVojak.DatumPropusteni ?? (object)DBNull.Value;
-            command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = SelectedVojak.Email ?? "placeholder";
-            command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo ?? "placeholder";
+            command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = email;
+            command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo;
             command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = SelectedVojak.HodnostId;
             command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = SelectedVojak.JednotkaId ?? (object)DBNull.Value;
             command.Parameters.Add("p_id_primy_nadrizeny", OracleDbType.Int32).Value = SelectedVojak.PrimyNadrizenyId ?? (object)DBNull.Value;
@@ -167,8 +169,45 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
 
     private void AddVojak()
     {
-        SelectedVojak = null;
-        LoadVojaci();
+        if (SelectedVojak == null) return;
+
+        try
+        {
+
+            using (var connection = _database.GetOpenConnection())
+            {
+                var command = new OracleCommand("edit_vojaci", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                string email = EmailParser.GenerateEmail(SelectedVojak.Jmeno, SelectedVojak.Prijmeni);
+
+                command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = DBNull.Value;
+                command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = SelectedVojak.Jmeno;
+                command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = SelectedVojak.Prijmeni;
+                command.Parameters.Add("p_datum_nastupu", OracleDbType.Date).Value = SelectedVojak.DatumNastupu;
+                command.Parameters.Add("p_datum_propusteni", OracleDbType.Date).Value = SelectedVojak.DatumPropusteni ?? (object)DBNull.Value;
+                command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = email;
+                command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo ?? "placeholder";
+                command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = SelectedVojak.HodnostId;
+                command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = SelectedVojak.JednotkaId ?? (object)DBNull.Value;
+                command.Parameters.Add("p_id_primy_nadrizeny", OracleDbType.Int32).Value = SelectedVojak.PrimyNadrizenyId ?? (object)DBNull.Value;
+
+                // Spuštění procedury
+                command.ExecuteNonQuery();
+            }
+
+            // Aktualizace seznamu vojáků
+            LoadVojaci();
+
+        }
+        catch (OracleException ex)
+        {
+            // Zpracování chyby při ukládání
+            MessageBox.Show($"Chyba při ukládání vojáka: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
     }
 
     private void DeleteVojak()

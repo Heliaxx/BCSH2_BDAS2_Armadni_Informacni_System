@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.Views
         public PrehledRoleView()
         {
             InitializeComponent();
+            DataContext = new PrehledRoleViewModel();
         }
     }
 }
