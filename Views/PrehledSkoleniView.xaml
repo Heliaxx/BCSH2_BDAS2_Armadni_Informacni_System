@@ -12,6 +12,7 @@
 
     <Page.Resources>
         <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <helpers:InverseBoolConverter x:Key="InverseBoolConverter" />
     </Page.Resources>
 
     <Grid>
@@ -50,36 +51,41 @@
             </Grid.RowDefinitions>
 
             <Label Content="Název školení:" Grid.Column="0" Grid.Row="0" />
-            <TextBox Grid.Column="1" Grid.Row="0" Margin="3" Text="{Binding SelectedSkoleni.Nazev}" />
+            <TextBox Grid.Column="1" Grid.Row="0" Margin="3" 
+                     Text="{Binding SelectedSkoleni.Nazev}" 
+                     VerticalAlignment="Center" 
+                     IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}" />
 
             <Label Content="Datum od:" Grid.Column="0" Grid.Row="1" />
-            <DatePicker Grid.Column="1" Grid.Row="1" Margin="3" SelectedDate="{Binding SelectedSkoleni.DatumOd}">
-                <DatePicker.SelectedDateFormat>
-                    <Binding Path="SelectedSkoleni.DatumOd" StringFormat="dd/MM/yyyy" />
-                </DatePicker.SelectedDateFormat>
-            </DatePicker>
+            <DatePicker Grid.Column="1" Grid.Row="1" Margin="3" 
+                        SelectedDate="{Binding SelectedSkoleni.DatumOd}" 
+                        IsEnabled="{Binding CanEdit}" />
 
             <Label Content="Datum do:" Grid.Column="0" Grid.Row="2" />
-            <DatePicker Grid.Column="1" Grid.Row="2" Margin="3" SelectedDate="{Binding SelectedSkoleni.DatumDo}">
-                <DatePicker.SelectedDateFormat>
-                    <Binding Path="SelectedSkoleni.DatumDo" StringFormat="dd/MM/yyyy" />
-                </DatePicker.SelectedDateFormat>
-            </DatePicker>
+            <DatePicker Grid.Column="1" Grid.Row="2" Margin="3" 
+                        SelectedDate="{Binding SelectedSkoleni.DatumDo}" 
+                        IsEnabled="{Binding CanEdit}" />
 
             <Label Content="Místo:" Grid.Column="0" Grid.Row="3" />
-            <TextBox Grid.Column="1" Grid.Row="3" Margin="3" Text="{Binding SelectedSkoleni.Misto}" />
+            <TextBox Grid.Column="1" Grid.Row="3" Margin="3" 
+                     Text="{Binding SelectedSkoleni.Misto}" 
+                     VerticalAlignment="Center" 
+                     IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}" />
 
             <Label Content="Počet účastníků:" Grid.Column="0" Grid.Row="4" />
-            <TextBox Grid.Column="1" Grid.Row="4" Margin="3" Text="{Binding SelectedSkoleni.PocetUcastniku}" />
+            <TextBox Grid.Column="1" Grid.Row="4" Margin="3" 
+                     Text="{Binding SelectedSkoleni.PocetUcastniku}" 
+                     VerticalAlignment="Center" 
+                     IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}" />
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Přidat" Width="100" Command="{Binding AddCommand}" Margin="5" 
-            Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Uložit" Width="100" Command="{Binding SaveCommand}" Margin="5" 
-            Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Smazat" Width="100" Command="{Binding DeleteCommand}" Margin="5" 
-            Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </Page>

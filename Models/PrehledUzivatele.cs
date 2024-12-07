@@ -1,6 +1,8 @@
-﻿namespace BCSH2_BDAS2_Armadni_Informacni_System.Models
+﻿using System;
+
+namespace BCSH2_BDAS2_Armadni_Informacni_System.Models
 {
-    public class Uzivatel
+    public class PrehledUzivatele
     {
         public int id_vojak { get; set; } 
         public string jmeno { get; set; }
