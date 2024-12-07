@@ -93,6 +93,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\SouborWindow.xaml.cs">
+      <DependentUpon>SouborWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,6 +116,7 @@
     <Compile Include="Models\PrehledNadrizenych.cs" />
     <Compile Include="Models\PrehledRole.cs" />
     <Compile Include="Models\PrehledSkoleni.cs" />
+    <Compile Include="Models\PrehledSoubory.cs" />
     <Compile Include="Models\PrehledUzivatele.cs" />
     <Compile Include="Models\PrehledVojaci.cs" />
     <Compile Include="Models\Utvary.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="ViewModels\PrehledNadrizenychViewModel.cs" />
     <Compile Include="ViewModels\PrehledRoleViewModel.cs" />
     <Compile Include="ViewModels\PrehledSkoleniViewModel.cs" />
+    <Compile Include="ViewModels\PrehledSouboryViewModel.cs" />
     <Compile Include="ViewModels\PrehledUzivateleViewModel.cs" />
     <Compile Include="ViewModels\PrehledVojaciViewModel.cs" />
     <Compile Include="Models\ProfilUzivatele.cs" />
@@ -160,11 +165,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PrehledSouboryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PrehledUzivateleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PrehledVojaciView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SouborWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,6 +197,9 @@
     </Compile>
     <Compile Include="Views\PrehledSkoleniView.xaml.cs">
       <DependentUpon>PrehledSkoleniView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledSouboryView.xaml.cs">
+      <DependentUpon>PrehledSouboryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PrehledUzivateleView.xaml.cs">
       <DependentUpon>PrehledUzivateleView.xaml</DependentUpon>

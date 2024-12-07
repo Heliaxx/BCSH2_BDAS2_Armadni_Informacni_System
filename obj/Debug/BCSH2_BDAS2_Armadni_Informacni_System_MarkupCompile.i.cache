@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\motlt\Documents\UPCE\BCSH2\BCSH2_BDAS2_Armadni_Informacni_System\obj\Debug\
+C:\Users\Saunic\Source\Repos\BCSH2_BDAS2_Armadni_Informacni_System\obj\Debug\
 BCSH2_BDAS2_Armadni_Informacni_System
 none
 false
 DEBUG;TRACE
-C:\Users\motlt\Documents\UPCE\BCSH2\BCSH2_BDAS2_Armadni_Informacni_System\Views\App.xaml
-9-1965086595
+C:\Users\Saunic\Source\Repos\BCSH2_BDAS2_Armadni_Informacni_System\Views\App.xaml
+11-916300945
 
-42250208098
-271026635637
-Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychView.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;
+46-712126807
+27824987971
+Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychView.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledSouboryView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;Views\SouborWindow.xaml;
 
-False
+True
 

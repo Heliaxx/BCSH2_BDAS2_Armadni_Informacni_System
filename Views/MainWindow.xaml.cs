@@ -96,5 +96,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         {
             MainFrame.Content = new PrehledNadrizenychView();
         }
+
+        private void Soubory_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledSouboryView();
+        }
     }
 }
