@@ -21,14 +21,12 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private MockDatabaseService mockDatabaseService;
         private bool isRegisterMode = false;
 
         public LoginWindow()
         {
             InitializeComponent();
             CheckDatabaseConnection();
-            mockDatabaseService = new MockDatabaseService();
         }
 
         private void CheckDatabaseConnection()
