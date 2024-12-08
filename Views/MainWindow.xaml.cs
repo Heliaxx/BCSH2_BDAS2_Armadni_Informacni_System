@@ -133,5 +133,15 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         {
             MainFrame.Content = new PrehledUtvarView();
         }
+
+        private void Konec_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Profil_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new ProfilUzivatele();
+        }
     }
 }

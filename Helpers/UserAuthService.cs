@@ -30,7 +30,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             using (var con = _database.GetOpenConnection())
             {
                 var command = new OracleCommand(
-                    "SELECT V.Heslo, R.Nazev AS RoleName " +
+                    "SELECT V.Heslo, R.Nazev AS RoleName, V.Id_Vojak, V.Jmeno, V.Prijmeni, H.Nazev AS Hodnost " +
                     "FROM Vojaci V " +
                     "JOIN Hodnosti H ON V.Id_Hodnost = H.Id_Hodnost " +
                     "JOIN Role R ON H.Id_Role = R.Id_Role " +
@@ -46,6 +46,12 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                         storedHash = reader["Heslo"].ToString();
                         string userRole = reader["RoleName"].ToString();
 
+                        // Načteme ID vojáka, jméno, příjmení a hodnost
+                        int idVojak = Convert.ToInt32(reader["Id_Vojak"]);
+                        string jmeno = reader["Jmeno"].ToString();
+                        string prijmeni = reader["Prijmeni"].ToString();
+                        string hodnost = reader["Hodnost"].ToString();
+
                         // Porovnání hesla pomocí hashovacího algoritmu
                         if (PasswordHasher.VerifyPassword(heslo, storedHash))
                         {
@@ -53,7 +59,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                             ProfilUzivateleManager.CurrentUser = new ProfilUzivatele
                             {
                                 Email = email,
-                                Role = userRole
+                                Role = userRole,
+                                IdVojak = idVojak,
+                                Jmeno = jmeno,
+                                Prijmeni = prijmeni,
+                                Hodnost = hodnost
                             };
                             return true;
                         }
