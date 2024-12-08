@@ -14,7 +14,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     internal class PrehledUzivateleViewModel : INotifyPropertyChanged
     {
         private readonly Database _database;
+        private string _searchText;
         public ObservableCollection<PrehledUzivatele> Uzivatele { get; set; } = new ObservableCollection<PrehledUzivatele>();
+        public ObservableCollection<PrehledUzivatele> FilteredUzivatele { get; set; } = new ObservableCollection<PrehledUzivatele>();
 
         private PrehledUzivatele _selectedUzivatel;
         public PrehledUzivatele SelectedUzivatel
@@ -24,6 +26,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedUzivatel = value;
                 OnPropertyChanged(nameof(SelectedUzivatel));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -59,6 +72,24 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
         }
 
+        private void ApplyFilter()
+        {
+            FilteredUzivatele.Clear();
+
+            foreach (var uzivatel in Uzivatele)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    uzivatel.jmeno.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    uzivatel.prijmeni.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    uzivatel.email.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    uzivatel.nazev_hodnosti.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    uzivatel.nazev_role.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredUzivatele.Add(uzivatel);
+                }
+            }
+        }
+
         private void LoadUzivatele()
         {
             Uzivatele.Clear();
@@ -72,7 +103,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                     var email = ProfilUzivateleManager.CurrentUser.Role.Equals("Generálové", StringComparison.OrdinalIgnoreCase)
                         ? reader.GetString(3) : "*****";  // Maskování emailu na základě role
 
-                    Uzivatele.Add(new PrehledUzivatele
+                    var uzivatel = new PrehledUzivatele
                     {
                         id_vojak = reader.GetInt32(0),
                         jmeno = reader.GetString(1),
@@ -81,7 +112,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         heslo = reader.GetString(4),
                         nazev_hodnosti = reader.GetString(5),
                         nazev_role = reader.GetString(6)
-                    });
+                    };
+                    Uzivatele.Add(uzivatel);
+                    FilteredUzivatele.Add(uzivatel);
                 }
             }
         }

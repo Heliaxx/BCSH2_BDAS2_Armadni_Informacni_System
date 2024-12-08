@@ -22,9 +22,8 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     }
 
     private readonly Database _database;
-
-    // Přidání privátní proměnné pro aktuálně vybraného vojáka
     private PrehledVojaci _selectedVojak;
+    private string _searchText;
 
     // Kolekce pro hodnosti a jednotky
     public ObservableCollection<Hodnost> Hodnosti { get; set; } = new ObservableCollection<Hodnost>();
@@ -39,6 +38,7 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
     public ObservableCollection<PrehledVojaci> Vojaci { get; set; } = new ObservableCollection<PrehledVojaci>();
+    public ObservableCollection<PrehledVojaci> FilteredVojaci { get; set; } = new ObservableCollection<PrehledVojaci>();
     public PrehledVojaci SelectedVojak
     {
         get { return _selectedVojak; }
@@ -56,6 +56,17 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
 
             // Aktualizace tlačítek a jiných vlastností
             DeleteCommand.RaiseCanExecuteChanged();
+        }
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            _searchText = value;
+            OnPropertyChanged(nameof(SearchText));
+            ApplyFilter();
         }
     }
 
@@ -97,6 +108,24 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     {
         string userRole = ProfilUzivateleManager.CurrentUser?.Role;
         CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
+    }
+
+    private void ApplyFilter()
+    {
+        FilteredVojaci.Clear();
+
+        foreach (var vojak in Vojaci)
+        {
+            if (string.IsNullOrWhiteSpace(SearchText) ||
+                vojak.Jmeno.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                vojak.Prijmeni.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                vojak.Hodnost.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                vojak.Jednotka.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                vojak.PrimyNadrizeny.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                FilteredVojaci.Add(vojak);
+            }
+        }
     }
 
     private void ShowNadrizeny()
@@ -359,6 +388,7 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
                 }
 
                 Vojaci.Add(voj);
+                FilteredVojaci.Add(voj);
             }
         }
     }

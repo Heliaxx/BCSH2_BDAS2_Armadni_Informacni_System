@@ -16,8 +16,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     {
         private readonly Database _database;
         private PrehledTechnika _selectedTechnika;
+        private string _searchText;
 
         public ObservableCollection<PrehledTechnika> Technika { get; set; } = new ObservableCollection<PrehledTechnika>();
+        public ObservableCollection<PrehledTechnika> FilteredTechnika { get; set; } = new ObservableCollection<PrehledTechnika>();
         public ObservableCollection<Utvary> Utvary { get; set; } = new ObservableCollection<Utvary>();
 
         public PrehledTechnika SelectedTechnika
@@ -27,6 +29,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedTechnika = value;
                 OnPropertyChanged(nameof(SelectedTechnika));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -75,6 +88,27 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci");
         }
 
+        private void ApplyFilter()
+        {
+            FilteredTechnika.Clear();
+
+            foreach (var technika in Technika)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    technika.MestoVyroby.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    technika.PatriPodUtvar.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    technika.ZemeImportu.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    technika.Puvod.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    technika.Vyrobce.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    technika.RegistracniCislo.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    technika.CisloVyrobnichPlanu.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    technika.Typ.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredTechnika.Add(technika);
+                }
+            }
+        }
+
         private void LoadUtvary()
         {
             Utvary.Clear();
@@ -103,7 +137,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Technika.Add(new PrehledTechnika
+                    var technika = new PrehledTechnika
                     {
                         IdTechnika = reader.GetInt32(0),
                         Typ = reader.GetString(1),
@@ -116,7 +150,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         ZemeImportu = reader.IsDBNull(8) ? "Technika není importovaná" : reader.GetString(8),
                         IdUtvar = reader.GetInt32(9),
                         PatriPodUtvar = reader.GetString(10)
-                    });
+                    };
+                    Technika.Add(technika);
+                    FilteredTechnika.Add(technika);
                 }
             }
 
