@@ -8,6 +8,7 @@ using System.Windows;
 using System;
 using System.Windows.Input;
 using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
+using Oracle.ManagedDataAccess.Types;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 {
@@ -56,6 +57,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
         public ICommand AddCommand { get; }
+        public ICommand CountCommand { get; }
 
         // Konstruktor
         public PrehledZbranViewModel()
@@ -67,8 +69,59 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             SaveCommand = new RelayCommand(SaveZbran);
             DeleteCommand = new RelayCommand(DeleteZbran);
             AddCommand = new RelayCommand(AddZbran);
+            CountCommand = new RelayCommand(Count);
             SetUserRolePermissions();
         }
+
+        private void Count()
+        {
+            try
+            {
+                string nazevZbrane = SelectedZbran.NazevZbrane; 
+
+                using (var connection = _database.GetOpenConnection())
+                {
+                    // Vytvoření OracleCommand pro volání funkce
+                    var command = new OracleCommand
+                    {
+                        Connection = connection,
+                        CommandText = "BEGIN :RETURN_VALUE := pocet_vojaku_se_zbrani(:nazev_zbrane); END;",
+                        CommandType = CommandType.Text
+                    };
+
+                    // Nastavení parametrů
+                    command.Parameters.Add("RETURN_VALUE", OracleDbType.Int32).Direction = ParameterDirection.ReturnValue;
+                    command.Parameters.Add("nazev_zbrane", OracleDbType.Varchar2).Value = nazevZbrane.Trim();
+
+                    command.ExecuteNonQuery();
+
+                    // Získání návratové hodnoty
+                    var returnValue = command.Parameters["RETURN_VALUE"].Value;
+
+                    if (returnValue == DBNull.Value)
+                    {
+                        MessageBox.Show($"Pro zbraň '{nazevZbrane}' nebyli nalezeni žádní vojáci.",
+                                        "Počet vojáků",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        // Převod hodnoty na int
+                        var pocetVojaku = Convert.ToDouble(((OracleDecimal)returnValue).Value);
+                        MessageBox.Show($"Počet vojáků se zbraní '{nazevZbrane}' je: {pocetVojaku}.",
+                                        "Počet vojáků",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Chyba při načítání dat: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void ApplyFilter()
         {
             FilteredZbrane.Clear();
