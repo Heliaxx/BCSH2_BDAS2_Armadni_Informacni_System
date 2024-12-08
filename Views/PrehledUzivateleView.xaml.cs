@@ -24,7 +24,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.Views
         public PrehledUzivateleView()
         {
             InitializeComponent();
-            DataContext = new PrehledUzivateleViewModel();
+            DataContext = new PrehledUzivateleViewModel(this);
         }
     }
 }

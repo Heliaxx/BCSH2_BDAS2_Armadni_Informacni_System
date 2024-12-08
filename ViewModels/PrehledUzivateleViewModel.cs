@@ -7,6 +7,7 @@ using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
 using BCSH2_BDAS2_Armadni_Informacni_System.Models;
 using System.Windows;
 using BCSH2_BDAS2_Armadni_Informacni_System.Entities;
+using System.Windows.Controls;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 {
@@ -39,13 +40,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
         public ICommand EmulateCommand { get; }
 
-        public PrehledUzivateleViewModel()
+        private Page _currentPage;
+
+        public PrehledUzivateleViewModel(Page currentPage)
         {
+            _currentPage = currentPage;
             _database = new Database();
             LoadUzivatele();
             EmulateCommand = new RelayCommand(Emulate);
             SetUserRolePermissions();
         }
+
 
         private void SetUserRolePermissions()
         {
@@ -83,17 +88,14 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
         private void Emulate()
         {
-            // Zkontroluj, zda je SelectedUzivatel null
             if (SelectedUzivatel == null)
             {
                 MessageBox.Show("Vyberte platného uživatele pro emulaci.");
-                return; 
+                return;
             }
 
-            // Uložení původního uživatele
             ProfilUzivateleManager.OriginalUser = ProfilUzivateleManager.CurrentUser;
 
-            // Nastavení nového uživatele pro emulaci
             ProfilUzivateleManager.CurrentUser = new ProfilUzivatele
             {
                 Email = SelectedUzivatel.email,
@@ -106,9 +108,13 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
             MessageBox.Show($"Emulace byla úspěšná. Role: {ProfilUzivateleManager.CurrentUser.Role}");
 
-            // Otevři hlavní okno s novým uživatelem
+            // Otevři nové hlavní okno
             MainWindow mainWindow = new MainWindow(ProfilUzivateleManager.CurrentUser.Role);
             mainWindow.Show();
+
+            // Zavři rodičovské okno obsahující tuto stránku
+            Window parentWindow = Window.GetWindow(_currentPage);
+            parentWindow?.Close();
         }
 
         // PropertyChanged event

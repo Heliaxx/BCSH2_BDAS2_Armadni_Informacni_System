@@ -35,5 +35,17 @@
         <!-- Hlavní obsah -->
         <Frame x:Name="MainFrame" Margin="0,60,0,0" NavigationUIVisibility="Hidden"/>
         <TextBlock Name="StatusTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" TextAlignment="Center" />
+
+        <Grid>
+            <!-- Tlačítko Ukončit emulaci v pravém dolním rohu -->
+            <Button Name="UkoncitEmulaciButton" 
+            Content="Ukončit emulaci" 
+            Click="UkoncitEmulaciButton_Click" 
+            Width="100" Height="20" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Bottom" 
+            Margin="10,10,10,10" 
+            Visibility="Collapsed" />
+        </Grid>
     </Grid>
 </Window>

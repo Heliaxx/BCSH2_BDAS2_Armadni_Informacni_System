@@ -1,4 +1,5 @@
-﻿using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
+﻿using BCSH2_BDAS2_Armadni_Informacni_System.Models;
+using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
 using BCSH2_BDAS2_Armadni_Informacni_System.Views;
 using System.Windows;
 
@@ -12,8 +13,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         {
             InitializeComponent();
             _userRole = userRole;
-
             ConfigureAccessBasedOnRole();
+            if (ProfilUzivateleManager.OriginalUser != null)
+            {
+                UkoncitEmulaciButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void ConfigureAccessBasedOnRole()
@@ -141,7 +145,29 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
 
         private void Profil_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new ProfilUzivatele();
+            MainFrame.Content = new BCSH2_BDAS2_Armadni_Informacni_System.Views.ProfilUzivatele();
+        }
+
+        private void UkoncitEmulaciButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Zkontroluj, zda je původní uživatel uložen
+            if (ProfilUzivateleManager.OriginalUser == null)
+            {
+                MessageBox.Show("Nebyl nalezen původní uživatel pro ukončení emulace.");
+                return;
+            }
+
+            ProfilUzivateleManager.CurrentUser = ProfilUzivateleManager.OriginalUser;
+            ProfilUzivateleManager.OriginalUser = null;
+
+            MessageBox.Show($"Emulace ukončena. Přihlášen jako role: {ProfilUzivateleManager.CurrentUser.Role}");
+
+            // Otevři nové hlavní okno s původními oprávněními
+            MainWindow mainWindow = new MainWindow(ProfilUzivateleManager.CurrentUser.Role);
+            mainWindow.Show();
+
+            // Zavři aktuální okno
+            this.Close();
         }
     }
 }
