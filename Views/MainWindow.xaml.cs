@@ -174,5 +174,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             // Zavři aktuální okno
             this.Close();
         }
+
+        private void Dovolenky_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledDovolenkyView();
+        }
     }
 }

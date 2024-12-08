@@ -87,7 +87,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             string prijmeniBezDiakritiky = RemoveDiacritics(prijmeni).ToLower();
 
             // Generování emailu podle pravidla jmeno.prijmeni@vojak.com
-            string email = $"{jmenoBezDiakritiky}.{prijmeniBezDiakritiky}@vojak.com";
+            string email = EmailParser.GenerateEmail(jmenoBezDiakritiky, prijmeniBezDiakritiky);
 
             // Hashování hesla
             string passwordHash = PasswordHasher.HashPassword(heslo);

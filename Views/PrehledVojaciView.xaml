@@ -16,18 +16,18 @@
 
     <Grid>
         <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
-                <Label Content="Vyhledat:" VerticalAlignment="Center" Margin="5"/>
-                <TextBox Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-            </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+            <Label Content="Vyhledat:" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        </StackPanel>
 
-            <!-- DataGrid pro seznam vojáků -->
+        <!-- DataGrid pro seznam vojáků -->
         <DataGrid Grid.Row="1" 
           ItemsSource="{Binding FilteredVojaci}" 
           SelectedItem="{Binding SelectedVojak, Mode=TwoWay}" 
@@ -37,8 +37,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Jméno" Binding="{Binding Jmeno}" Width="*" />
                 <DataGridTextColumn Header="Příjmení" Binding="{Binding Prijmeni}" Width="*" />
-                <DataGridTextColumn Header="Datum nástupu" Binding="{Binding DatumNastupu}" Width="*" />
-                <DataGridTextColumn Header="Datum propuštění" Binding="{Binding DatumPropusteni}" Width="*" />
+                <DataGridTextColumn Header="Datum nástupu" Binding="{Binding DatumNastupu, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" />
+                <DataGridTextColumn Header="Datum propuštění" Binding="{Binding DatumPropusteni, StringFormat='{}{0:dd.MM.yyyy}'}" Width="*" />
                 <DataGridTextColumn Header="Hodnost" Binding="{Binding Hodnost}" Width="*" />
                 <DataGridTextColumn Header="Jednotka" Binding="{Binding Jednotka}" Width="*" />
                 <DataGridTextColumn Header="Přímý Nadřízený" Binding="{Binding PrimyNadrizeny}" Width="*" />
@@ -57,7 +57,7 @@
             <TextBlock Text="Datum propuštění:" />
             <DatePicker SelectedDate="{Binding SelectedVojak.DatumPropusteni, Mode=TwoWay}" Margin="0,5" IsEnabled="{Binding CanEdit}" />
             <TextBlock Text="Hodnost:" />
-            
+
             <ComboBox ItemsSource="{Binding Hodnosti}" 
                         DisplayMemberPath="Nazev" 
                         SelectedValuePath="IdHodnost" 
@@ -99,6 +99,7 @@
             <Button Content="Smazat" Command="{Binding DeleteCommand}" Width="75" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Uložit" Command="{Binding SaveCommand}" Width="75" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Adept na povýšení" Command="{Binding AdeptCommand}" Width="110" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Content="Smazat neaktivní vojáky" Command="{Binding DeleteInactiveCommand}" Width="135" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
 
     </Grid>

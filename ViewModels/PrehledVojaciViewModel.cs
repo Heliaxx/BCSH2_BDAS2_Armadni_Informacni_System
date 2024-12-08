@@ -34,6 +34,7 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     public RelayCommand DeleteCommand { get; set; }
     public RelayCommand ShowCommand { get; set; }
     public RelayCommand AdeptCommand { get; set; }
+    public RelayCommand DeleteInactiveCommand { get; set; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -96,12 +97,36 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         DeleteCommand = new RelayCommand(DeleteVojak);
         ShowCommand = new RelayCommand(ShowNadrizeny);
         AdeptCommand = new RelayCommand(Adept);
+        DeleteInactiveCommand = new RelayCommand(DeleteInactive);
         SetUserRolePermissions();
+    }
+
+    private void DeleteInactive()
+    {
+        try
+        {
+            using (var connection = _database.GetOpenConnection())
+            {
+                var command = new OracleCommand("smazat_neaktivni_vojaky", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                command.ExecuteNonQuery();
+                LoadVojaci();
+            }
+
+            MessageBox.Show("Neaktivní vojáci byli úspěšně smazáni.", "Úspěch", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Chyba při mazání neaktivních vojáků: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private void Adept()
     {
-        
+
     }
 
     private void SetUserRolePermissions()
@@ -182,14 +207,12 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
                     CommandType = CommandType.StoredProcedure
                 };
 
-                string email = EmailParser.GenerateEmail(SelectedVojak.Jmeno, SelectedVojak.Prijmeni);
-
                 command.Parameters.Add("p_id_vojak", OracleDbType.Int32).Value = SelectedVojak.IdVojak;
                 command.Parameters.Add("p_jmeno", OracleDbType.Varchar2).Value = SelectedVojak.Jmeno;
                 command.Parameters.Add("p_prijmeni", OracleDbType.Varchar2).Value = SelectedVojak.Prijmeni;
                 command.Parameters.Add("p_datum_nastupu", OracleDbType.Date).Value = SelectedVojak.DatumNastupu;
                 command.Parameters.Add("p_datum_propusteni", OracleDbType.Date).Value = SelectedVojak.DatumPropusteni ?? (object)DBNull.Value;
-                command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = email;
+                command.Parameters.Add("p_email", OracleDbType.Varchar2).Value = SelectedVojak.Email;
                 command.Parameters.Add("p_heslo", OracleDbType.Varchar2).Value = SelectedVojak.Heslo;
                 command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = SelectedVojak.HodnostId;
                 command.Parameters.Add("p_id_jednotka", OracleDbType.Int32).Value = SelectedVojak.JednotkaId ?? (object)DBNull.Value;
@@ -356,6 +379,7 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     private void LoadVojaci()
     {
         Vojaci.Clear();
+        FilteredVojaci.Clear();
 
         using (var connection = _database.GetOpenConnection())
         {
