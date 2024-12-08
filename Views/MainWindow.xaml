@@ -11,7 +11,7 @@
     <Grid>
         <!-- Sekce pro tlačítka vpravo nahoře -->
         <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0">
-            <Button Name="LogOutButton" Content="Log Out" Click="LogOutButton_Click"
+            <Button Name="LogOutButton" Content="Odhlásit se" Click="LogOutButton_Click"
                     Width="60" Height="20" Margin="0,0,0,10" />
             <Button Name="Konec" Content="Konec" Click="Konec_Click" Width="60" Height="20" Margin="0" />
         </StackPanel>

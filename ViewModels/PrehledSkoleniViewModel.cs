@@ -15,8 +15,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     {
         private readonly Database _database;
         private PrehledSkoleni _selectedSkoleni;
+        private string _searchText;
 
         public ObservableCollection<PrehledSkoleni> Skoleni { get; set; } = new ObservableCollection<PrehledSkoleni>();
+        public ObservableCollection<PrehledSkoleni> FilteredSkoleni { get; set; } = new ObservableCollection<PrehledSkoleni>();
 
         public PrehledSkoleni SelectedSkoleni
         {
@@ -25,6 +27,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedSkoleni = value;
                 OnPropertyChanged(nameof(SelectedSkoleni));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -115,17 +128,33 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             CanEdit = !(userRole == "Vojáci");
         }
 
+        private void ApplyFilter()
+        {
+            FilteredSkoleni.Clear();
+
+            foreach (var skoleni in Skoleni)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    skoleni.Nazev.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    skoleni.Misto.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredSkoleni.Add(skoleni);
+                }
+            }
+        }
+
         // Načítání školení z databáze
         private void LoadSkoleni()
         {
             Skoleni.Clear();
+            FilteredSkoleni.Clear();
             using (var connection = _database.GetOpenConnection())
             {
                 var command = new OracleCommand("SELECT * FROM PREHLED_SKOLENI", connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Skoleni.Add(new PrehledSkoleni
+                    var skoleni = new PrehledSkoleni
                     {
                         IdSkoleni = reader.GetInt32(0),
                         Nazev = reader.GetString(1),
@@ -133,7 +162,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         DatumDo = reader.GetDateTime(3),
                         Misto = reader.GetString(4),
                         PocetUcastniku = reader.GetInt32(5)
-                    });
+                    };
+                    Skoleni.Add(skoleni);
+                    FilteredSkoleni.Add(skoleni);
                 }
             }
 

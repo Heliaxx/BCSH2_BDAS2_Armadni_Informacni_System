@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System" xmlns:viewmodels="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:VojakViewModel}"
+        xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System" xmlns:viewmodels="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.ViewModels"
         mc:Ignorable="d"
         Title="LoginWindow" Height="500" Width="800" MinHeight="500" MinWidth="350">
     <Grid>
@@ -19,13 +19,13 @@
 
         <!-- First Name Label and TextBox -->
         <StackPanel x:Name="stackfn" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,200,0,0" Visibility="Collapsed">
-            <Label Content="First Name" HorizontalAlignment="Center" />
+            <Label Content="Jméno" HorizontalAlignment="Center" />
             <TextBox x:Name="firstName" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" />
         </StackPanel>
 
         <!-- Last Name Label and TextBox -->
         <StackPanel x:Name="stackln" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,250,0,0" Visibility="Collapsed">
-            <Label Content="Last Name" HorizontalAlignment="Center" />
+            <Label Content="Příjmení" HorizontalAlignment="Center" />
             <TextBox x:Name="lastName" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" />
         </StackPanel>
 
@@ -37,12 +37,12 @@
 
         <!-- Password Label and TextBox -->
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,0,0">
-            <Label Content="Password" HorizontalAlignment="Center" />
-            <TextBox x:Name="password" TextWrapping="Wrap" VerticalAlignment="Top" MinWidth="150" />
+            <Label Content="Heslo" HorizontalAlignment="Center" />
+            <PasswordBox x:Name="password" VerticalAlignment="Top" MinWidth="150"/>
         </StackPanel>
 
         <!-- Buttons -->
-        <Button x:Name="signInButton" Content="Sign in" HorizontalAlignment="Center" Margin="-80,0,0,100" Padding="5" MinWidth="70" VerticalAlignment="Bottom" Click="Sign_In_Click"/>
-        <Button x:Name="registerButton" Content="Register" HorizontalAlignment="Center" Margin="80,0,0,100" Padding="5" MinWidth="70" VerticalAlignment="Bottom" Click="Register_Click"/>
+        <Button x:Name="signInButton" Content="Přihlásit se" HorizontalAlignment="Center" Margin="-80,0,0,100" Padding="5" MinWidth="70" VerticalAlignment="Bottom" Click="Sign_In_Click"/>
+        <Button x:Name="registerButton" Content="Registrace" HorizontalAlignment="Center" Margin="80,0,0,100" Padding="5" MinWidth="70" VerticalAlignment="Bottom" Click="Register_Click"/>
     </Grid>
 </Window>

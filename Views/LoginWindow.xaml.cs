@@ -74,7 +74,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         private void LoginUser()
         {
             string emailInput = email.Text;
-            string passwordInput = password.Text;
+            string passwordInput = password.Password;
 
             UserAuthService authService = new UserAuthService();
 
@@ -95,7 +95,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
 
         private void RegisterUser()
         {
-            string passwordInput = password.Text;
+            string passwordInput = password.Password;
             string firstNameInput = firstName.Text;
             string lastNameInput = lastName.Text;
 
