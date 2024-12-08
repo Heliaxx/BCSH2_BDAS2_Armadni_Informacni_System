@@ -17,13 +17,20 @@
     <Grid>
         <!-- Definice řádků -->
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!-- Vyhledávací pole -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+            <Label Content="Vyhledat:" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        </StackPanel>
+
         <!-- DataGrid pro seznam uživatelů -->
-        <DataGrid Grid.Row="0" 
-          ItemsSource="{Binding Uzivatele}" 
+        <DataGrid Grid.Row="1" 
+          ItemsSource="{Binding FilteredUzivatele}" 
           AutoGenerateColumns="False" 
           IsReadOnly="True" 
           Margin="5"
@@ -46,7 +53,7 @@
                 Command="{Binding EmulateCommand}"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Center"
-                Grid.Row="1"
+                Grid.Row="2"
                 Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </Page>

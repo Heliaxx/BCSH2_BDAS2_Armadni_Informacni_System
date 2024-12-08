@@ -17,14 +17,21 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!-- Vyhledávací pole -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+            <Label Content="Vyhledat:" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        </StackPanel>
+
         <!-- DataGrid pro zobrazení útvarů -->
-        <DataGrid Grid.Row="0" 
-                  ItemsSource="{Binding Utvary}" 
+        <DataGrid Grid.Row="1" 
+                  ItemsSource="{Binding FilteredUtvary}" 
                   SelectedItem="{Binding SelectedUtvar, Mode=TwoWay}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True" 
@@ -40,7 +47,7 @@
         </DataGrid>
 
         <!-- Formulář pro zobrazení detailu útvaru -->
-        <Grid Grid.Row="1" Margin="10">
+        <Grid Grid.Row="2" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -78,7 +85,7 @@
         </Grid>
 
         <!-- Tlačítka pro operace -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
             <Button Content="Přidat" Width="100" Margin="5" Command="{Binding AddCommand}"
                     Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Uložit" Width="100" Margin="5" Command="{Binding SaveCommand}" 

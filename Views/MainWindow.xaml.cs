@@ -133,6 +133,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
             MainFrame.Content = new PrehledTechnikaView();
         }
 
+        private void Zbrane_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledZbranView();
+        }
+
         private void Utvary_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new PrehledUtvarView();

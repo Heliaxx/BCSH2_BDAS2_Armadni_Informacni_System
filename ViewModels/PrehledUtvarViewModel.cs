@@ -14,8 +14,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     {
         private readonly Database _database;
         private PrehledUtvar _selectedUtvar;
+        private string _searchText;
 
         public ObservableCollection<PrehledUtvar> Utvary { get; set; } = new ObservableCollection<PrehledUtvar>();
+        public ObservableCollection<PrehledUtvar> FilteredUtvary { get; set; } = new ObservableCollection<PrehledUtvar>();
 
         public PrehledUtvar SelectedUtvar
         {
@@ -24,6 +26,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedUtvar = value;
                 OnPropertyChanged(nameof(SelectedUtvar));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -53,6 +66,21 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             SetUserRolePermissions();
         }
 
+        private void ApplyFilter()
+        {
+            FilteredUtvary.Clear();
+
+            foreach (var utvar in Utvary)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    utvar.Nazev.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    utvar.Typ.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredUtvary.Add(utvar);
+                }
+            }
+        }
+
         private void SetUserRolePermissions()
         {
             string userRole = ProfilUzivateleManager.CurrentUser?.Role;
@@ -63,13 +91,14 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
         private void LoadUtvary()
         {
             Utvary.Clear();
+            FilteredUtvary.Clear();
             using (var connection = _database.GetOpenConnection())
             {
                 var command = new OracleCommand("SELECT * FROM PREHLED_UTVAR", connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Utvary.Add(new PrehledUtvar
+                    var utvar = new PrehledUtvar
                     {
                         IdUtvar = reader.GetInt32(0),
                         Nazev = reader.GetString(1),
@@ -77,7 +106,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         IdVelikost = reader.GetInt32(3),
                         PocetVojaku = reader.GetInt32(4),
                         PocetJednotek = reader.GetInt32(5)
-                    });
+                    };
+                    Utvary.Add(utvar);
+                    FilteredUtvary.Add(utvar);
                 }
             }
 

@@ -9,13 +9,11 @@ using System.Data;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 {
-    internal class PrehledRoleViewModel : INotifyPropertyChanged
+    internal class PrehledRoleViewModel
     {
         private readonly Database _database;
 
         public ObservableCollection<PrehledRole> Role { get; set; } = new ObservableCollection<PrehledRole>();
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         // Konstruktor
         public PrehledRoleViewModel()

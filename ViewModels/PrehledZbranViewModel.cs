@@ -15,8 +15,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     {
         private readonly Database _database;
         private PrehledZbran _selectedZbran;
+        private string _searchText;
 
         public ObservableCollection<PrehledZbran> Zbrane { get; set; } = new ObservableCollection<PrehledZbran>();
+        public ObservableCollection<PrehledZbran> FilteredZbrane { get; set; } = new ObservableCollection<PrehledZbran>();
         public ObservableCollection<Utvary> Utvary { get; set; } = new ObservableCollection<Utvary>();
         public ObservableCollection<Vojak> Vojaci { get; set; } = new ObservableCollection<Vojak>();
 
@@ -27,6 +29,16 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedZbran = value;
                 OnPropertyChanged(nameof(SelectedZbran));
+            }
+        }
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -56,6 +68,24 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             DeleteCommand = new RelayCommand(DeleteZbran);
             AddCommand = new RelayCommand(AddZbran);
             SetUserRolePermissions();
+        }
+        private void ApplyFilter()
+        {
+            FilteredZbrane.Clear();
+
+            foreach (var zbrane in Zbrane)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    zbrane.NazevZbrane.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    zbrane.Typ.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    zbrane.Kalibr.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    zbrane.NazevUtvaru.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    zbrane.VojakJmeno.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    zbrane.VojakPrijmeni.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredZbrane.Add(zbrane);
+                }
+            }
         }
 
         private void SetUserRolePermissions()
@@ -106,6 +136,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
         private void LoadZbrane()
         {
+            FilteredZbrane.Clear();
             Zbrane.Clear();
             using (var connection = _database.GetOpenConnection())
             {
@@ -114,7 +145,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
                 while (reader.Read())
                 {
-                    Zbrane.Add(new PrehledZbran
+                    var zbrane = new PrehledZbran
                     {
                         IdZbran = reader.GetInt32(0),
                         NazevZbrane = reader.GetString(1),
@@ -126,14 +157,16 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         IdVojak = reader.IsDBNull(7) ? (int?)null : reader.GetInt32(7),
                         VojakJmeno = reader.IsDBNull(8) ? string.Empty : reader.GetString(8),
                         VojakPrijmeni = reader.IsDBNull(9) ? string.Empty : reader.GetString(9),
-                    });
+                    };
+                    Zbrane.Add(zbrane);
+                    FilteredZbrane.Add(zbrane);
                 }
             }
 
             // Pokud není vybrána žádná zbraň, nastaví se na první prvek
-            if (SelectedZbran == null && Zbrane.Count > 0)
+            if (SelectedZbran == null && FilteredZbrane.Count > 0)
             {
-                SelectedZbran = Zbrane[0];
+                SelectedZbran = FilteredZbrane[0];
             }
         }
 

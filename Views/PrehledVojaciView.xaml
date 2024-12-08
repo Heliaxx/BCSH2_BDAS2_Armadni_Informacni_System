@@ -15,17 +15,21 @@
     </Page.Resources>
 
     <Grid>
-        <!-- Definice řádků -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="3*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <!-- DataGrid pro seznam vojáků -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+                <Label Content="Vyhledat:" VerticalAlignment="Center" Margin="5"/>
+                <TextBox Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+            </StackPanel>
+
+            <!-- DataGrid pro seznam vojáků -->
         <DataGrid Grid.Row="1" 
-          ItemsSource="{Binding Vojaci}" 
+          ItemsSource="{Binding FilteredVojaci}" 
           SelectedItem="{Binding SelectedVojak, Mode=TwoWay}" 
           AutoGenerateColumns="False" 
           IsReadOnly="True" 

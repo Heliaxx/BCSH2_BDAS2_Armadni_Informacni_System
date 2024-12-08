@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System"
         xmlns:viewmodels="clr-namespace:BCSH2_BDAS2_Armadni_Informacni_System.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1400">
 
     <Grid>
         <!-- Sekce pro tlačítka vpravo nahoře -->
@@ -27,6 +27,7 @@
             <Button x:Name="Specializace" Content="Specializace" Click="Specializace_Click" Width="80" Height="20" Margin="10"/>
             <Button x:Name="Uzivatele" Content="Uzivatele" Click="Uzivatele_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Technika" Content="Technika" Click="Technika_Click" Width="80" Height="20" Margin="10"/>
+            <Button x:Name="Zbrane" Content="Zbrane" Click="Zbrane_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Role" Content="Role" Click="Role_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Utvary" Content="Útvary" Click="Utvary_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Logy" Content="Log" Click="Logy_Click" Width="60" Height="20" Margin="10"/>
