@@ -94,10 +94,11 @@
 
         <!-- Spodní tlačítka -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" Grid.Row="3">
-            <Button Content="Zobraz nadřízené" Command="{Binding ShowCommand}" Width="100" Height="25" Margin="5" />
+            <Button Content="Zobraz nadřízené" Command="{Binding ShowCommand}" Width="110" Height="25" Margin="5" />
             <Button Content="Přidat" Command="{Binding AddCommand}" Width="75" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Smazat" Command="{Binding DeleteCommand}" Width="75" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Uložit" Command="{Binding SaveCommand}" Width="75" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Content="Adept na povýšení" Command="{Binding AdeptCommand}" Width="110" Height="25" Margin="5" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
 
     </Grid>

@@ -93,6 +93,8 @@
                     Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Smazat" Width="100" Command="{Binding DeleteCommand}" Margin="5" 
                     Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Content="Průměrný počet účastníků" Width="150" Command="{Binding AverageCommand}" Margin="5" 
+                    Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </Page>
