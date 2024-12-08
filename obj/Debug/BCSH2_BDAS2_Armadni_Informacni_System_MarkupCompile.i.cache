@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Saunic\Source\Repos\BCSH2_BDAS2_Armadni_Informacni_System\Views\App.xaml
-19-337518764
+20-1221430498
 
-69-711192532
+731672286518
 27824987971
-Views\DatabaseObjectsView.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledDovolenkyView.xaml;Views\PrehledHodnostView.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychWindow.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledSpecializaceView.xaml;Views\PrehledSouboryView.xaml;Views\PrehledTechnikaView.xaml;Views\PrehledUtvarView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;Views\PrehledZbranView.xaml;Views\ProfilUzivatele.xaml;Views\SouborWindow.xaml;
+Views\DatabaseObjectsView.xaml;Views\LoginWindow.xaml;Views\MainWindow.xaml;Views\PrehledDovolenkyView.xaml;Views\PrehledDovolenkyVojaciView.xaml;Views\PrehledHodnostView.xaml;Views\PrehledJednotkyView.xaml;Views\PrehledLogyView.xaml;Views\PrehledNadrizenychWindow.xaml;Views\PrehledRoleView.xaml;Views\PrehledSkoleniView.xaml;Views\PrehledSpecializaceView.xaml;Views\PrehledSouboryView.xaml;Views\PrehledTechnikaView.xaml;Views\PrehledUtvarView.xaml;Views\PrehledUzivateleView.xaml;Views\PrehledVojaciView.xaml;Views\PrehledZbranView.xaml;Views\ProfilUzivatele.xaml;Views\SouborWindow.xaml;
 
 True
 

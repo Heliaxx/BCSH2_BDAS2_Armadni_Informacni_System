@@ -186,5 +186,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         {
             MainFrame.Content = new PrehledHodnostView();
         }
+
+        private void Dovolenky_Vojaci_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledDovolenkyVojaciView();
+        }
     }
 }
