@@ -15,11 +15,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
     internal class PrehledSouboryViewModel : INotifyPropertyChanged
     {
         private readonly Database _database;
-
-        // ObservableCollection pro propojení s View
         public ObservableCollection<PrehledSoubory> Soubory { get; set; } = new ObservableCollection<PrehledSoubory>();
+        public ObservableCollection<PrehledSoubory> FilteredSoubory { get; set; } = new ObservableCollection<PrehledSoubory>();
 
         private PrehledSoubory _selectedSoubor;
+        private string _searchText;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -30,6 +30,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedSoubor = value;
                 OnPropertyChanged(nameof(SelectedSoubor));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -74,10 +85,27 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             _canAddOrDelete = !(userRole == "Vojáci");
         }
 
+        private void ApplyFilter()
+        {
+            FilteredSoubory.Clear();
+
+            foreach (var soubor in Soubory)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    soubor.NazevSouboru.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    soubor.TypSouboru.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    soubor.PriponaSouboru.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredSoubory.Add(soubor);
+                }
+            }
+        }
+
         // Načtení souborů z databáze
         public void NačístSoubory()
         {
             Soubory.Clear();
+            FilteredSoubory.Clear();
             using (var connection = _database.GetOpenConnection())
             {
                 var command = new OracleCommand("SELECT * FROM PREHLED_SOUBORY", connection);
@@ -85,14 +113,16 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
                 while (reader.Read())
                 {
-                    Soubory.Add(new PrehledSoubory
+                    var soubor = new PrehledSoubory
                     {
                         IdSoubor = reader.GetInt32(0),
                         NazevSouboru = reader.GetString(1),
                         TypSouboru = reader.GetString(2),
                         PriponaSouboru = reader.GetString(3),
                         DatumNahrani = reader.GetDateTime(4)
-                    });
+                    };
+                    Soubory.Add(soubor);
+                    FilteredSoubory.Add(soubor);
                 }
             }
         }

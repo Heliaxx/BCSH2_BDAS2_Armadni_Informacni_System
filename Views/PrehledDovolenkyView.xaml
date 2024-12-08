@@ -23,9 +23,15 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!-- Vyhledávací pole -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+            <Label Content="Vyhledat:" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Width="200" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+        </StackPanel>
+
         <!-- DataGrid pro zobrazení dovolenek -->
         <DataGrid Grid.Row="1" 
-                  ItemsSource="{Binding Dovolene}" 
+                  ItemsSource="{Binding FilteredDovolene}" 
                   SelectedItem="{Binding SelectedDovolenka, Mode=TwoWay}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True" 

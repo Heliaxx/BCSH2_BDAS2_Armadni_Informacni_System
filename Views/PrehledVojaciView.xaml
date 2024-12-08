@@ -47,7 +47,6 @@
 
         <!-- Detailní pohled pro editaci -->
         <StackPanel Grid.Row="2" Margin="5">
-            <TextBlock Text="Detail vojáka" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" HorizontalAlignment="Center"/>
             <TextBlock Text="Jméno:" />
             <TextBox Text="{Binding SelectedVojak.Jmeno, Mode=TwoWay}" Margin="0,5" IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}" />
             <TextBlock Text="Příjmení:" />

@@ -16,6 +16,7 @@ public class PrehledDovolenkyVojaciViewModel : INotifyPropertyChanged
     private readonly Database _database;
     private ObservableCollection<Vojak> _vojaci;
     private ObservableCollection<DuvodDovolenky> _duvodyDovolenky;
+    private string _searchText;
 
     public DuvodDovolenky SelectedDovolenka
     {
@@ -80,6 +81,7 @@ public class PrehledDovolenkyVojaciViewModel : INotifyPropertyChanged
 
     // Změna na public pro binding
     public ObservableCollection<PrehledDovolenkyVojaci> DovolenkyVojaci { get; set; } = new ObservableCollection<PrehledDovolenkyVojaci>();
+    public ObservableCollection<PrehledDovolenkyVojaci> FilteredDovolenkyVojaci { get; set; } = new ObservableCollection<PrehledDovolenkyVojaci>();
 
     public ObservableCollection<Vojak> Vojaci
     {
@@ -88,6 +90,17 @@ public class PrehledDovolenkyVojaciViewModel : INotifyPropertyChanged
         {
             _vojaci = value;
             OnPropertyChanged(nameof(Vojaci));
+        }
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            _searchText = value;
+            OnPropertyChanged(nameof(SearchText));
+            ApplyFilter();
         }
     }
 
@@ -125,6 +138,22 @@ public class PrehledDovolenkyVojaciViewModel : INotifyPropertyChanged
         DeleteCommand = new RelayCommand(DeleteDovolenka);
     }
 
+    private void ApplyFilter()
+    {
+        FilteredDovolenkyVojaci.Clear();
+
+        foreach (var dovolenkaVojak in DovolenkyVojaci)
+        {
+            if (string.IsNullOrWhiteSpace(SearchText) ||
+                dovolenkaVojak.Jmeno.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                dovolenkaVojak.Prijmeni.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                dovolenkaVojak.Duvod.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                FilteredDovolenkyVojaci.Add(dovolenkaVojak);
+            }
+        }
+    }
+
     // Načítání vojáků
     private void LoadVojaci()
     {
@@ -160,6 +189,7 @@ public class PrehledDovolenkyVojaciViewModel : INotifyPropertyChanged
     private void LoadDovolenkyVojaci()
     {
         DovolenkyVojaci.Clear();
+        FilteredDovolenkyVojaci.Clear();
         using (var connection = _database.GetOpenConnection())
         {
             var command = new OracleCommand("SELECT * FROM PREHLED_DOVOLENKY_VOJACI", connection);
@@ -177,6 +207,7 @@ public class PrehledDovolenkyVojaciViewModel : INotifyPropertyChanged
                     Prijmeni = reader.GetString(6)
                 };
                 DovolenkyVojaci.Add(dovolenka);
+                FilteredDovolenkyVojaci.Add(dovolenka);
             }
         }
     }

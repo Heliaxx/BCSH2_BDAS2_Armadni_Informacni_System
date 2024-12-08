@@ -16,8 +16,10 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
         private readonly Database _database;
         private PrehledHodnost _selectedHodnost;
         private bool _canEdit;
+        private string _searchText;
 
         public ObservableCollection<PrehledHodnost> Hodnosti { get; set; } = new ObservableCollection<PrehledHodnost>();
+        public ObservableCollection<PrehledHodnost> FilteredHodnosti { get; set; } = new ObservableCollection<PrehledHodnost>();
 
         public PrehledHodnost SelectedHodnost
         {
@@ -26,6 +28,17 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             {
                 _selectedHodnost = value;
                 OnPropertyChanged(nameof(SelectedHodnost));
+            }
+        }
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                ApplyFilter();
             }
         }
 
@@ -61,9 +74,27 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
         }
 
+        private void ApplyFilter()
+        {
+            FilteredHodnosti.Clear();
+
+            foreach (var hodnost in Hodnosti)
+            {
+                if (string.IsNullOrWhiteSpace(SearchText) ||
+                    hodnost.Nazev.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    hodnost.Odmeny.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    hodnost.PotrebnyStupenVzdelani.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    hodnost.NazevRole.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    FilteredHodnosti.Add(hodnost);
+                }
+            }
+        }
+
         private void LoadHodnosti()
         {
             Hodnosti.Clear();
+            FilteredHodnosti.Clear();
             using (var connection = _database.GetOpenConnection())
             {
                 var command = new OracleCommand("SELECT * FROM PREHLED_HODNOSTI", connection);
@@ -71,7 +102,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 
                 while (reader.Read())
                 {
-                    Hodnosti.Add(new PrehledHodnost
+                    var hodnost = new PrehledHodnost
                     {
                         IdHodnost = reader.GetInt32(0),
                         Nazev = reader.GetString(1),
@@ -81,7 +112,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         VahaHodnosti = reader.GetDecimal(5),
                         IdRole = reader.GetInt32(6),
                         NazevRole = reader.GetString(7)
-                    });
+                    };
+                    Hodnosti.Add(hodnost);
+                    FilteredHodnosti.Add(hodnost);
                 }
             }
 

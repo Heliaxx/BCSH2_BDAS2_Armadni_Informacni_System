@@ -13,8 +13,10 @@ public class PrehledDovolenkyViewModel : INotifyPropertyChanged
 {
     private readonly Database _database;
     private PrehledDovolenky _selectedDovolenka;
+    private string _searchText;
 
     public ObservableCollection<PrehledDovolenky> Dovolene { get; set; } = new ObservableCollection<PrehledDovolenky>();
+    public ObservableCollection<PrehledDovolenky> FilteredDovolene { get; set; } = new ObservableCollection<PrehledDovolenky>();
     public PrehledDovolenky SelectedDovolenka
     {
         get => _selectedDovolenka;
@@ -22,6 +24,17 @@ public class PrehledDovolenkyViewModel : INotifyPropertyChanged
         {
             _selectedDovolenka = value;
             OnPropertyChanged(nameof(SelectedDovolenka));
+        }
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            _searchText = value;
+            OnPropertyChanged(nameof(SearchText));
+            ApplyFilter();
         }
     }
 
@@ -56,10 +69,25 @@ public class PrehledDovolenkyViewModel : INotifyPropertyChanged
         _canEdit = !(userRole == "Vojáci");
     }
 
+    private void ApplyFilter()
+    {
+        FilteredDovolene.Clear();
+
+        foreach (var dovolena in Dovolene)
+        {
+            if (string.IsNullOrWhiteSpace(SearchText) ||
+                dovolena.Duvod.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                FilteredDovolene.Add(dovolena);
+            }
+        }
+    }
+
     // Načítání dovolenek z databáze
     private void LoadDovolene()
     {
         Dovolene.Clear();
+        FilteredDovolene.Clear();
         try
         {
             using (var connection = _database.GetOpenConnection())
@@ -76,6 +104,7 @@ public class PrehledDovolenkyViewModel : INotifyPropertyChanged
                         Duvod = reader.GetString(3)
                     };
                     Dovolene.Add(dovolenka);
+                    FilteredDovolene.Add(dovolenka);
                 }
             }
         }
