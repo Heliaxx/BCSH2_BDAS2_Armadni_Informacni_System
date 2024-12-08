@@ -7,6 +7,7 @@ using BCSH2_BDAS2_Armadni_Informacni_System.Models;
 using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
 using System.Windows;
 using System.Windows.Input;
+using System.Linq;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 {
@@ -60,7 +61,6 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci" || userRole == "Důstojníci");
         }
 
-        // Načítání hodností z databáze
         private void LoadHodnosti()
         {
             Hodnosti.Clear();
@@ -83,6 +83,12 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                         NazevRole = reader.GetString(7)
                     });
                 }
+            }
+
+            // Nastavit první hodnost jako vybranou, pokud žádná není již vybraná
+            if (Hodnosti.Any() && SelectedHodnost == null)
+            {
+                SelectedHodnost = Hodnosti.First();
             }
         }
 
@@ -131,9 +137,9 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
                     };
 
                     // Předání parametrů pro novou hodnost
-                    command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = DBNull.Value; // Nová hodnost, tedy ID bude NULL
+                    command.Parameters.Add("p_id_hodnost", OracleDbType.Int32).Value = DBNull.Value;
                     command.Parameters.Add("p_nazev", OracleDbType.Varchar2).Value = SelectedHodnost.Nazev;
-                    command.Parameters.Add("p_odmeny", OracleDbType.Varchar2).Value = (object)SelectedHodnost.Odmeny ?? DBNull.Value; // Odměny, pokud nejsou, použije se NULL
+                    command.Parameters.Add("p_odmeny", OracleDbType.Varchar2).Value = (object)SelectedHodnost.Odmeny ?? DBNull.Value; 
                     command.Parameters.Add("p_potrebny_stupen_vzdelani", OracleDbType.Varchar2).Value = SelectedHodnost.PotrebnyStupenVzdelani;
                     command.Parameters.Add("p_potrebny_pocet_let_v_praxi", OracleDbType.Int32).Value = SelectedHodnost.PotrebnyPocetLetVPraxi;
                     command.Parameters.Add("p_vaha_hodnosti", OracleDbType.Decimal).Value = SelectedHodnost.VahaHodnosti;

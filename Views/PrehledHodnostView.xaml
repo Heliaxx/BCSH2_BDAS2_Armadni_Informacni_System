@@ -25,13 +25,13 @@
 
         <!-- DataGrid pro zobrazení hodností -->
         <DataGrid Grid.Row="1" 
-                  ItemsSource="{Binding FilteredHodnosti}" 
-                  SelectedItem="{Binding SelectedHodnost, Mode=TwoWay}" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True" 
-                  Margin="5"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch">
+          ItemsSource="{Binding Hodnosti}" 
+          SelectedItem="{Binding SelectedHodnost, Mode=TwoWay}" 
+          AutoGenerateColumns="False" 
+          IsReadOnly="True" 
+          Margin="5"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Název" Binding="{Binding Nazev}" Width="*" />
                 <DataGridTextColumn Header="Odměny" Binding="{Binding Odmeny}" Width="*" />
@@ -66,7 +66,7 @@
 
             <Label Content="Odměny:" Grid.Column="0" Grid.Row="1" Margin="3" VerticalAlignment="Center" />
             <TextBox Grid.Column="1" Grid.Row="1" Margin="3" 
-                     Text="{Binding SelectedHodnost.Odmenny}" 
+                     Text="{Binding SelectedHodnost.Odmeny}" 
                      VerticalAlignment="Center" 
                      IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}" />
 
@@ -78,7 +78,7 @@
 
             <Label Content="Počet let v praxi:" Grid.Column="0" Grid.Row="3" Margin="3" VerticalAlignment="Center" />
             <TextBox Grid.Column="1" Grid.Row="3" Margin="3" 
-                     Text="{Binding SelectedHodnost.PocetLetVPraci}" 
+                     Text="{Binding SelectedHodnost.PotrebnyPocetLetVPraxi}" 
                      VerticalAlignment="Center" 
                      IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}" />
 
