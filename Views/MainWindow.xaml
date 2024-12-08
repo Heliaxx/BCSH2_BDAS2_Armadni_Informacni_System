@@ -26,6 +26,7 @@
             <Button x:Name="SystemovyKatalog" Content="Sys. katalog" Click="Systemovy_Katalog_Click" Width="80" Height="20" Margin="10"/>
             <Button x:Name="Jednotky" Content="Jednotky" Click="Jednotky_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Specializace" Content="Specializace" Click="Specializace_Click" Width="80" Height="20" Margin="10"/>
+            <Button x:Name="Hodnosti" Content="Hodnosti" Click="Hodnosti_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Uzivatele" Content="Uzivatele" Click="Uzivatele_Click" Width="60" Height="20" Margin="10"/>
             <Button x:Name="Technika" Content="Technika" Click="Technika_Click" Width="80" Height="20" Margin="10"/>
             <Button x:Name="Zbrane" Content="Zbrane" Click="Zbrane_Click" Width="60" Height="20" Margin="10"/>

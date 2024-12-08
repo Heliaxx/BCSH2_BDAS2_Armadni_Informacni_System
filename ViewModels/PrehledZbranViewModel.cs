@@ -144,7 +144,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
         private void SetUserRolePermissions()
         {
             string userRole = ProfilUzivateleManager.CurrentUser?.Role;
-            CanEdit = !(userRole == "Vojáci");
+            CanEdit = !(userRole == "Vojáci" || userRole == "Poddůstojníci");
         }
 
         // Načítání útvarů z databáze

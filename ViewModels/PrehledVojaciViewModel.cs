@@ -126,7 +126,72 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
 
     private void Adept()
     {
+        try
+        {
+            string hodnost = SelectedVojak?.Hodnost;
 
+            using (var connection = _database.GetOpenConnection())
+            {
+                // Vytvoření OracleCommand pro volání funkce vracející SYS_REFCURSOR
+                var command = new OracleCommand
+                {
+                    Connection = connection,
+                    CommandText = "BEGIN :RETURN_VALUE := vojak_s_hodnosti_a_nejdele_v_armade(:nazev_hodnosti); END;",
+                    CommandType = CommandType.Text
+                };
+
+                // Nastavení parametrů
+                var returnParam = new OracleParameter("RETURN_VALUE", OracleDbType.RefCursor)
+                {
+                    Direction = ParameterDirection.ReturnValue
+                };
+                command.Parameters.Add(returnParam);
+
+                var hodnostParam = new OracleParameter("nazev_hodnosti", OracleDbType.Varchar2)
+                {
+                    Direction = ParameterDirection.Input,
+                    Value = hodnost?.Trim()
+                };
+                command.Parameters.Add(hodnostParam);
+
+                // Spuštění příkazu
+                command.ExecuteNonQuery();
+
+                // Získání návratového kurzoru
+                using (var reader = ((OracleRefCursor)returnParam.Value).GetDataReader())
+                {
+                    if (reader.Read())
+                    {
+                        string jmeno = reader["jmeno"].ToString();
+                        string prijmeni = reader["prijmeni"].ToString();
+                        int pocetLet = reader.GetInt32(reader.GetOrdinal("pocet_let"));
+
+                        // Zobrazení dat uživateli
+                        MessageBox.Show(
+                            $"Voják: {jmeno} {prijmeni}\nPočet let ve službě: {pocetLet}",
+                            "Adept na povýšení",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Žádný voják s touto hodností nebyl nalezen.",
+                            "Informace",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                $"Chyba při načítání dat: {ex.Message}",
+                "Chyba",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+        }
     }
 
     private void SetUserRolePermissions()

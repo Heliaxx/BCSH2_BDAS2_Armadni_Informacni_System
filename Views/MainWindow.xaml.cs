@@ -57,6 +57,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                     Uzivatele.Visibility = Visibility.Collapsed;
                     Technika.Visibility = Visibility.Collapsed;
                     Jednotky.Visibility = Visibility.Collapsed;
+                    Zbrane.Visibility = Visibility.Collapsed;
                     break;
 
                 default:
@@ -70,6 +71,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
                     Uzivatele.Visibility = Visibility.Collapsed;
                     Technika.Visibility = Visibility.Collapsed;
                     Jednotky.Visibility = Visibility.Collapsed;
+                    Zbrane.Visibility = Visibility.Collapsed;
                     MessageBox.Show("Nemáte oprávnění k přístupu do této aplikace.");
                     Close();
                     break;
@@ -178,6 +180,11 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         private void Dovolenky_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new PrehledDovolenkyView();
+        }
+
+        private void Hodnosti_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledHodnostView();
         }
     }
 }
