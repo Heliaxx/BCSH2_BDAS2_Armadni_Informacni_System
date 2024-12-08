@@ -14,6 +14,22 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +49,28 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>C595FBFAA6BB3937560CE727E98217C391D2B131</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>BCSH2_BDAS2_Armadni_Informacni_System_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -98,13 +136,17 @@
     <Compile Include="Models\PrehledDovolenky.cs" />
     <Compile Include="Models\PrehledDovolenkyVojaci.cs" />
     <Compile Include="Models\PrehledHodnost.cs" />
+    <Compile Include="Models\PrehledSkoleniUcastnici.cs" />
+    <Compile Include="Models\PrehledSpecializaceVojak.cs" />
     <Compile Include="Models\PrehledTechnika.cs" />
     <Compile Include="Models\PrehledUtvar.cs" />
     <Compile Include="Models\PrehledZbran.cs" />
     <Compile Include="ViewModels\DatabaseObjectsViewModel.cs" />
     <Compile Include="ViewModels\PrehledDovolenkyViewModel.cs" />
-    <Compile Include="ViewModels\PrehledDovolenkyVojaciModelView.cs" />
+    <Compile Include="ViewModels\PrehledDovolenkyVojaciViewModel.cs" />
     <Compile Include="ViewModels\PrehledHodnostViewModel.cs" />
+    <Compile Include="ViewModels\PrehledSkoleniUcastniciViewModel.cs" />
+    <Compile Include="ViewModels\PrehledSpecializaceVojaciViewModel.cs" />
     <Compile Include="ViewModels\PrehledTechnikaModelView.cs" />
     <Compile Include="ViewModels\PrehledUtvarViewModel.cs" />
     <Compile Include="ViewModels\PrehledZbranViewModel.cs" />
@@ -123,6 +165,12 @@
     </Compile>
     <Compile Include="Views\PrehledNadrizenychWindow.xaml.cs">
       <DependentUpon>PrehledNadrizenychWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledSkoleniUcastniciView.xaml.cs">
+      <DependentUpon>PrehledSkoleniUcastniciView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledSpecializaceVojaciView.xaml.cs">
+      <DependentUpon>PrehledSpecializaceVojaciView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PrehledTechnikaView.xaml.cs">
       <DependentUpon>PrehledTechnikaView.xaml</DependentUpon>
@@ -222,6 +270,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PrehledSkoleniUcastniciView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PrehledSkoleniView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,6 +283,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PrehledSouboryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrehledSpecializaceVojaciView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,6 +361,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="BCSH2_BDAS2_Armadni_Informacni_System_TemporaryKey.pfx" />
     <None Include="Database\Oracle.DataAccess.Common.Configuration.Section.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -312,6 +369,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -323,6 +381,17 @@
   <ItemGroup>
     <Resource Include="Views\background.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 a x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

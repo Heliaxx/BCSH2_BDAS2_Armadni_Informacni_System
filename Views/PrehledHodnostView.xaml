@@ -103,9 +103,9 @@
 
         <!-- Tlačítka pro operace -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-            <Button Content="Přidat" Width="100" Margin="5" Command="{Binding AddCommand}"/>
-            <Button Content="Uložit" Width="100" Margin="5" Command="{Binding SaveCommand}" />
-            <Button Content="Smazat" Width="100" Margin="5" Command="{Binding DeleteCommand}" />
+            <Button Content="Přidat" Width="100" Margin="5" Command="{Binding AddCommand}" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Content="Uložit" Width="100" Margin="5" Command="{Binding SaveCommand}" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button Content="Smazat" Width="100" Margin="5" Command="{Binding DeleteCommand}" Visibility="{Binding CanEdit, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </Page>

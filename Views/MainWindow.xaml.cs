@@ -191,5 +191,15 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System
         {
             MainFrame.Content = new PrehledDovolenkyVojaciView();
         }
+
+        private void Skoleni_Ucastnici_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledSkoleniUcastniciView();
+        }
+
+        private void Specializace_Vojaci_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new PrehledSpecializaceVojaciView();
+        }
     }
 }
