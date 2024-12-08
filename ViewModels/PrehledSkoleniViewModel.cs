@@ -7,6 +7,7 @@ using System.Windows.Input;
 using BCSH2_BDAS2_Armadni_Informacni_System.Models;
 using BCSH2_BDAS2_Armadni_Informacni_System.Helpers;
 using System;
+using Oracle.ManagedDataAccess.Types;
 
 namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
 {
@@ -41,6 +42,7 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
         public ICommand SaveCommand { get; }
         public ICommand DeleteCommand { get; }
         public ICommand AddCommand { get; set; }
+        public ICommand AverageCommand { get; set; }
 
         // Konstruktor
         public PrehledSkoleniViewModel()
@@ -50,8 +52,61 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.ViewModels
             SaveCommand = new RelayCommand(SaveSkoleni);
             DeleteCommand = new RelayCommand(DeleteSkoleni);
             AddCommand = new RelayCommand(AddSkoleni);
+            AverageCommand = new RelayCommand(PrumerVojaku);
             SetUserRolePermissions();
         }
+        private void PrumerVojaku()
+        {
+            try
+            {
+                // Logování názvu školení pro ověření
+                Console.WriteLine($"Název školení: {SelectedSkoleni.Nazev}");
+
+                // Připojení k databázi
+                using (var connection = _database.GetOpenConnection())
+                {
+                    // Vytvoření OracleCommand pro volání funkce
+                    var command = new OracleCommand
+                    {
+                        Connection = connection,
+                        CommandText = "BEGIN :RETURN_VALUE := prumerny_pocet_ucastniku_na_skoleni(:nazev_skoleni); END;",
+                        CommandType = CommandType.Text
+                    };
+
+                    // Nastavení parametrů
+                    command.Parameters.Add("RETURN_VALUE", OracleDbType.Decimal).Direction = ParameterDirection.ReturnValue;
+                    command.Parameters.Add("nazev_skoleni", OracleDbType.Varchar2).Value = SelectedSkoleni.Nazev.Trim();
+
+                    // Spuštění příkazu
+                    command.ExecuteNonQuery();
+
+                    // Získání návratové hodnoty
+                    var returnValue = command.Parameters["RETURN_VALUE"].Value;
+
+                    if (returnValue == DBNull.Value)
+                    {
+                        MessageBox.Show($"Na školení '{SelectedSkoleni.Nazev}' nebyli žádní účastníci.",
+                                        "Průměr účastníků",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        // Převod hodnoty na decimal a následně na double
+                        var prumernyPocet = Convert.ToDouble(((OracleDecimal)returnValue).Value);
+                        MessageBox.Show($"Průměrný počet účastníků na školení '{SelectedSkoleni.Nazev}' je {prumernyPocet}.",
+                                        "Průměr účastníků",
+                                        MessageBoxButton.OK,
+                                        MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Chyba při načítání dat: {ex.Message}", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void SetUserRolePermissions()
         {
             string userRole = ProfilUzivateleManager.CurrentUser?.Role;

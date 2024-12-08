@@ -12,6 +12,7 @@ using System.Data;
 using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
 using BCSH2_BDAS2_Armadni_Informacni_System.Views;
 using System.Windows.Input;
+using Oracle.ManagedDataAccess.Types;
 
 public class PrehledVojaciViewModel : INotifyPropertyChanged
 {
@@ -33,6 +34,7 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
     public RelayCommand SaveCommand { get; set; }
     public RelayCommand DeleteCommand { get; set; }
     public RelayCommand ShowCommand { get; set; }
+    public RelayCommand AdeptCommand { get; set; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -82,7 +84,13 @@ public class PrehledVojaciViewModel : INotifyPropertyChanged
         SaveCommand = new RelayCommand(SaveVojak);
         DeleteCommand = new RelayCommand(DeleteVojak);
         ShowCommand = new RelayCommand(ShowNadrizeny);
+        AdeptCommand = new RelayCommand(Adept);
         SetUserRolePermissions();
+    }
+
+    private void Adept()
+    {
+        
     }
 
     private void SetUserRolePermissions()
