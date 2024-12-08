@@ -94,12 +94,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\DatabaseObject.cs" />
+    <Compile Include="Models\DovolenkaDuvod.cs" />
     <Compile Include="Models\PrehledDovolenky.cs" />
+    <Compile Include="Models\PrehledDovolenkyVojaci.cs" />
+    <Compile Include="Models\PrehledHodnost.cs" />
     <Compile Include="Models\PrehledTechnika.cs" />
     <Compile Include="Models\PrehledUtvar.cs" />
     <Compile Include="Models\PrehledZbran.cs" />
     <Compile Include="ViewModels\DatabaseObjectsViewModel.cs" />
     <Compile Include="ViewModels\PrehledDovolenkyViewModel.cs" />
+    <Compile Include="ViewModels\PrehledDovolenkyVojaciModelView.cs" />
+    <Compile Include="ViewModels\PrehledHodnostViewModel.cs" />
     <Compile Include="ViewModels\PrehledTechnikaModelView.cs" />
     <Compile Include="ViewModels\PrehledUtvarViewModel.cs" />
     <Compile Include="ViewModels\PrehledZbranViewModel.cs" />
@@ -109,6 +114,12 @@
     </Compile>
     <Compile Include="Views\PrehledDovolenkyView.xaml.cs">
       <DependentUpon>PrehledDovolenkyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledDovolenkyVojaciView.xaml.cs">
+      <DependentUpon>PrehledDovolenkyVojaciView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrehledHodnostView.xaml.cs">
+      <DependentUpon>PrehledHodnostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PrehledNadrizenychWindow.xaml.cs">
       <DependentUpon>PrehledNadrizenychWindow.xaml</DependentUpon>
@@ -184,6 +195,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PrehledDovolenkyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrehledDovolenkyVojaciView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrehledHodnostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -26,13 +26,13 @@ public class PrehledDovolenkyViewModel : INotifyPropertyChanged
     }
 
     private bool _canEdit = false;
-    public bool CannEdit
+    public bool CanEdit
     {
         get => _canEdit;
         set
         {
             _canEdit = value;
-            OnPropertyChanged(nameof(CannEdit));
+            OnPropertyChanged(nameof(CanEdit));
         }
     }
 
