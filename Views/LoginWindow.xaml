@@ -42,7 +42,7 @@
         </StackPanel>
 
         <!-- Buttons -->
-        <Button x:Name="signInButton" Content="Přihlásit se" HorizontalAlignment="Center" Margin="-80,0,0,100" Padding="5" MinWidth="70" VerticalAlignment="Bottom" Click="Sign_In_Click"/>
+        <Button x:Name="signInButton" Content="Přihlásit se" HorizontalAlignment="Center" Margin="-80,0,0,100" Padding="5" MinWidth="70" VerticalAlignment="Bottom" Click="Sign_In_Click" IsDefault="True"/>
         <Button x:Name="registerButton" Content="Registrace" HorizontalAlignment="Center" Margin="80,0,0,100" Padding="5" MinWidth="70" VerticalAlignment="Bottom" Click="Register_Click"/>
     </Grid>
 </Window>
