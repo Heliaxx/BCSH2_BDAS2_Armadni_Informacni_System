@@ -63,7 +63,6 @@ public class PrehledSkoleniUcastniciViewModel : INotifyPropertyChanged
 
         try
         {
-
             using (var connection = _database.GetOpenConnection())
         {
             var command = new OracleCommand("SELECT * FROM PREHLED_SKOLENI_UCASTNICI", connection);
@@ -72,14 +71,14 @@ public class PrehledSkoleniUcastniciViewModel : INotifyPropertyChanged
             {
                 var skoleni = new PrehledSkoleniUcastnici
                 {
-                    Skoleni = reader.GetString(0),
-                    DatumOd = reader.GetDateTime(1),
-                    DatumDo = reader.GetDateTime(2),
-                    Misto = reader.GetString(3),
-                    IdVojak = reader.GetInt32(4),
-                    Jmeno = reader.GetString(5),
-                    Prijmeni = reader.GetString(6),
-                    IdSkoleni = reader.GetInt32(7)
+                    IdSkoleni = reader.GetInt32(0),
+                    Skoleni = reader.GetString(1),
+                    DatumOd = reader.GetDateTime(2),
+                    DatumDo = reader.GetDateTime(3),
+                    Misto = reader.GetString(4),
+                    IdVojak = reader.GetInt32(5),
+                    Jmeno = reader.GetString(6),
+                    Prijmeni = reader.GetString(7)
                 };
                 SkoleniUcastnici.Add(skoleni);
                 FilteredSkoleniUcastnici.Add(skoleni);

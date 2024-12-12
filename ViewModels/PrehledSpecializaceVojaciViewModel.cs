@@ -60,6 +60,7 @@ public class PrehledSpecializaceVojaciViewModel : INotifyPropertyChanged
     {
         SpecializaceVojaci.Clear();
         FilteredSpecializaceVojaci.Clear();
+
         try
         {
             using (var connection = _database.GetOpenConnection())

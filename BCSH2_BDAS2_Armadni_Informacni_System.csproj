@@ -51,7 +51,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>BCSH2_BDAS2_Armadni_Informacni_System.App</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>C595FBFAA6BB3937560CE727E98217C391D2B131</ManifestCertificateThumbprint>
