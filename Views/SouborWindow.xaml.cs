@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using BCSH2_BDAS2_Armadni_Informacni_System.ViewModels;
+using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -40,3 +41,15 @@ namespace BCSH2_BDAS2_Armadni_Informacni_System.Views
         }
     }
 }
+
+//namespace BCSH2_BDAS2_Armadni_Informacni_System.Views
+//{
+//    public partial class SouborWindow : Window
+//    {
+//        public SouborWindow()
+//        {
+//            InitializeComponent();
+//            DataContext = new PrehledSouboryViewModel();
+//        }
+//    }
+//}

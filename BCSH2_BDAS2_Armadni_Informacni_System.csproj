@@ -141,6 +141,7 @@
     <Compile Include="Models\PrehledTechnika.cs" />
     <Compile Include="Models\PrehledUtvar.cs" />
     <Compile Include="Models\PrehledZbran.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\DatabaseObjectsViewModel.cs" />
     <Compile Include="ViewModels\PrehledDovolenkyViewModel.cs" />
     <Compile Include="ViewModels\PrehledDovolenkyVojaciViewModel.cs" />
